@@ -10,7 +10,6 @@ body, html {
     color: #d0dbf9;
     display: flex;
     flex-direction: column;
-    user-select: none;
   }
 
 .events{
@@ -28,6 +27,7 @@ body, html {
   box-shadow: 0 2px 6px rgba(0,0,0,0.3);
   animation: fadeInUp 1s ease forwards;
   animation-delay: 5mss;
+  overflow: hidden;
 }
 
 @keyframes fadeInUp {
@@ -41,29 +41,64 @@ body, html {
   }
 }
 
+.event-section h3{
+  text-align: center;
+  font-size: 5vh;
+  margin-bottom: 10px;
+  transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.event-section h3:hover {
+  text-shadow: 0px 3px 9px rgba(0, 0, 0, 100);
+  transform: scale(1.15);
+  color: #ffffff;
+}
+
+
 .event-flex {
   display: flex;
+  flex-direction: row;
   gap: 25px;
-  flex-wrap: wrap;
-  align-items: flex-start;
+  align-items: center;
 }
 
 .event-images {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-.event-images img {
-  width: 300px;
-  height: auto;
+  height: 25vh;
+  max-width: 35vh;
+  overflow: hidden;
+  border: 2px solid #ccc;
   border-radius: 6px;
   box-shadow: 0 1px 4px rgba(0,0,0,0.4);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.event-images img:hover {
+.carousel-track {
+  display: flex;
+  flex-direction: column;
+  animation: slide 12s infinite; 
+}
+
+.carousel-track:hover {
+  animation-play-state: paused;
+}
+
+/*  */
+.carousel-track img{
+  height: 25vh;
+}
+
+/* 3 */
+@keyframes slide { 
+  0%   { transform: translateY(0); }
+  33%  { transform: translateY(-25vh); }
+  66%  { transform: translateY(-50vh); }
+  100% { transform: translateY(0); }
+}
+
+
+.event-images:hover{
   transform: scale(1.05);
+  border: 3px solid #73b2f5;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
 }
 
@@ -72,30 +107,10 @@ body, html {
   min-width: 250px;
 }
 
-.event-text h3 {
-  font-size: 22px;
-  color: #e6f0ff;
-  margin-bottom: 10px;
-}
-
 .event-text p {
-  font-size: 16px;
-  color: #d0dbf9;
+  font-size:2.2vh;
+  color: #c5e2f9;
   margin-bottom: 15px;
 }
 
-.event-text h3 {
-  text-align: center;
-  font-size: 22px;
-  color: #e6f0ff;
-  margin-bottom: 10px;
-  transition: transform 0.3s ease, color 0.3s ease;
-  transform-origin: left center;
-  display: inline-block;
-}
-
-.event-text h3:hover {
-  transform: scale(1.2);
-  color: #ffffff;
-}
 
