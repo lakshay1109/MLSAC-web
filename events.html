@@ -4,53 +4,93 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Events</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="./events.css">
 </head>
 <body>
 
-<div class="events" id="events-content">
+<div class="events">
+
   <section class="event-section" id="event1">
-    <h3>Game of Code 3.0</h3><br>
+    <!-- <h3>Game of Code 3.0</h3><br> -->
     <div class="event-flex">
       <div class="event-images">
-
         <div class="carousel-track">
-          <img src="./event-images/Game_Of_Code_3.0/GOC_image-1.png" alt="Event 2 Image 1">
-          <img src="./event-images/Game_Of_Code_3.0/GOC_image-2.png" alt="Event 2 Image 1">
-          <img src="./event-images/Game_Of_Code_3.0/GOC_image-3.png" alt="Event 2 Image 1">
+          <a href="#popup-goc" class="carousel-item">
+            <img src="./event-images/Game_Of_Code_3.0/GOC_image-1.png" alt="Game of Code">
+          </a>
+          <a href="#popup-goc" class="carousel-item">
+            <img src="./event-images/Game_Of_Code_3.0/GOC_image-2.png" alt="Game of Code">
+          </a>
+          <a href="#popup-goc" class="carousel-item">
+            <img src="./event-images/Game_Of_Code_3.0/GOC_image-3.png" alt="Game of Code">
+          </a>
+          <a href="#popup-goc" class="carousel-item">
+            <video src="./event-images/Game_Of_Code_3.0/GOC_video.mp4" autoplay muted></video>
+          </a>
         </div>
-
       </div>
+
       <div class="event-text">
-        <!-- <h3>Game of Code 3.0</h3> -->
-        <p>Game of Code 3.0, conducted under BVEST by MLSAC in collaboration with DSC Campus Blocks, offered a rigorous platform for enhancing logical reasoning and programming competence. The two-round structure—comprising a campus-wide Scavenger Hunt followed by a timed Puzzle Rush—enabled participants to apply analytical and collaborative skills under pressure. With participation from 74 teams across all academic years and a prize pool of ₹10,000, the event reflected strong student engagement and a commitment to academic and technical excellence.</p>
+        <h3>Game of Code 3.0</h3>
+        <p>Game of Code 3.0, conducted under BVEST by MLSAC, provided a rigorous platform to sharpen logical reasoning and programming skills. Its two-round format—a campus-wide Scavenger Hunt followed by a timed Puzzle Rush—challenged participants to apply analytical and teamwork abilities under pressure. With 74 teams across all academic years and a prize pool of ₹10,000, the event showcased strong student engagement and technical excellence.</p>
       </div>
     </div>
   </section>
 
+  <!-- popup for goc -->
+  <div id="popup-goc" class="popup" role="dialog" aria-modal="true">
+    <a href="#" class="close"><i class="fa-solid fa-x"></i></a>
+    <div class="popup-content">
+      <img src="./event-images/Game_Of_Code_3.0/GOC_image-1.png" alt="Game of Code">
+      <img src="./event-images/Game_Of_Code_3.0/GOC_image-2.png" alt="Game of Code">
+      <img src="./event-images/Game_Of_Code_3.0/GOC_image-3.png" alt="Game of Code">
+      <video src="./event-images/Game_Of_Code_3.0/GOC_video.mp4" controls></video>
+    </div>
+  </div>
+
+  
   <section class="event-section" id="event2">
-    <h3>UXplore</h3><br>
+    <!-- <h3>UXplore</h3><br> -->
     <div class="event-flex">
       <div class="event-images">
-        
-        <!-- images to be corrected... -->
         <div class="carousel-track">
-          <img src="./event-images/TRP/TRP_image-1.jpg" alt="TRP Image 1">
-          <img src="./event-images/TRP/TRP_image-2.jpg" alt="TRP Image 2">
-          <img src="./event-images/TRP/TRP_image-3.jpg" alt="TRP Image 3">
+          <a href="#popup-uxplore" class="carousel-item">
+            <img src="./event-images/UXplore/UXplore_image-1.jpg" alt="TRP">
+          </a>
+          <a href="#popup-uxplore" class="carousel-item">
+            <img src="./event-images/UXplore/UXplore_image-2.jpg" alt="TRP">
+          </a>
+          <a href="#popup-uxplore" class="carousel-item">
+            <img src="./event-images/UXplore/UXplore_image-3.jpg" alt="TRP">
+          </a>
+          <a href="#popup-uxplore" class="carousel-item">
+            <video src="./event-images/UXplore/UXplore_video.mp4" autoplay muted></video>
+          </a>
         </div>
-
       </div>
 
       <div class="event-text">
-        <!-- <h3>UXplore</h3> -->
+        <h3>UXplore</h3>
         <p>UXplore brought an energetic, design-focused atmosphere to the BVCOE Library on 19 September 2025, offering students a dynamic, time-bound platform to apply design-thinking skills. With 39 teams and 115 participants, the event's strategic bidding, problem-solving, and pitching rounds drove high engagement and earned strong feedback for its impactful structure and well-executed learning experience.</p>
       </div>
     </div>
   </section>
 
+     <!-- popup for UXplore -->
+  <div id="popup-uxplore" class="popup" role="dialog" aria-modal="true">
+    <a href="#" class="close"><i class="fa-solid fa-x"></i></a>
+    <div class="popup-content">
+      <img src="./event-images/UXplore/UXplore_image-1.jpg" alt="UXplore">
+      <img src="./event-images/UXplore/UXplore_image-2.jpg" alt="UXplore">
+      <img src="./event-images/UXplore/UXplore_image-3.jpg" alt="UXplore">
+      <video src="./event-images/UXplore/UXplore_video.mp4"controls></video>
+    </div>
+  </div>
+
+
   <section class="event-section" id="event3">
-    <h3>BugSmash</h3><br>
+    <!-- <h3>BugSmash</h3><br> -->
     <div class="event-flex">
       <div class="event-images">
 
@@ -61,14 +101,14 @@
       </div>
 
       <div class="event-text">
-        <!-- <h3>BugSmash</h3> -->
-        <p>BugSmash was a premier event, held on February 11, 2025, where 38 student teams competed to master debugging and code optimization. The innovative two-part structure, featuring a pen-and-paper error analysis round and a high-stakes coding optimization challenge, pushed participants to their limits. This intensive experience successfully enhanced logical reasoning, critical problem-solving, and the ability to craft clean, performance-driven solutions, equipping students with essential skills for real-world programming.</p>
+        <h3>BugSmash</h3>
+        <p>BugSmash, held on February 11, 2025, brought together 38 student teams to tackle debugging and code optimization. Its two-part format—error analysis on paper followed by a coding optimization challenge—tested logical reasoning, problem-solving, and performance-driven coding. The event sharpened essential skills for real-world programming under pressure.</p>
       </div>
     </div>
   </section>
 
   <section class="event-section" id="event4">
-    <h3>TRP( tech, rumble and panchayat)</h3><br>
+    <!-- <h3>TRP( tech, rumble and panchayat)</h3><br> -->
     <div class="event-flex">
       <div class="event-images">
 
@@ -81,14 +121,14 @@
       </div>
 
       <div class="event-text">
-        <!-- <h3>TRP( tech, rumble and panchayat)</h3> -->
-        <p>TRP( tech, rumble and panchayat) an event to foster critical thinking technical knowledge and effective communication skills among the participants was held on 18th October 2024. 29 teams enthusiastically participated in the event. The teams with best public speaking abilities, technical expertise in their domain and quick thinking ability made their way through the first 3 rounds to a final cross questioning round that challenged them to defend their viewpoints, enhancing their ability to think and respond persuasively under pressure .</p>
+        <h3>TRP( tech, rumble and panchayat)</h3>
+        <p>TRP (Tech, Rumble & Panchayat), held on 18th October 2024, brought together 29 teams to showcase critical thinking, technical expertise, and communication skills. After three rounds of public speaking, domain knowledge, and quick thinking, finalists faced a cross-questioning round that tested their ability to defend viewpoints and respond persuasively under pressure.</p>
       </div>
     </div>
   </section>
 
   <section class="event-section" id="event5">
-    <h3>CreatiCon</h3><br>
+    <!-- <h3>CreatiCon</h3><br> -->
     <div class="event-flex">
       <div class="event-images">
 
@@ -100,7 +140,7 @@
       </div>
       
       <div class="event-text">
-        <!-- <h3>CreatiCon</h3> -->
+        <h3>CreatiCon</h3>
         <p>CreatiCon, held on 18th September 2024, brought together 31 teams in a dynamic blend of creativity and strategy. The event strengthened critical thinking, design innovation, decision-making, and teamwork through its engaging auction and logo design rounds. It offered participants a rich platform to sharpen creative, technical, and presentation skills essential for modern problem-solving.</p>
       </div>
     </div>
