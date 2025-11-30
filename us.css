@@ -1,0 +1,270 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&display=swap');
+body {
+    background: #122C3E;
+    margin: 0;
+    padding: 0;
+}
+
+/* VS Code reserved areas*/
+.vscode-left {
+    width: 280px;
+    height: 100vh;
+    position: fixed;
+    left: 0;
+    top: 0;
+}
+
+.vscode-top {
+    height: 40px;
+    width: 100%;
+    position: fixed;
+    left: 0;
+    top: 0;
+}
+
+.vscode-bottom {
+    height: 30px;
+    width: 100%;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+}
+
+/* CONTACT SECTION CORE */
+.contact-section {
+    margin-left: 280px;
+    margin-top: 60px;
+    margin-bottom: 60px;
+    padding: 20px;
+
+    background: rgb(5, 17, 27);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    animation: fadeIn 0.6s ease;
+
+    position: relative;
+    overflow: hidden;
+}
+
+/* ====== TECH BACKGROUND DECORATIONS ====== */
+.contact-section::before {
+    content: "";
+    position: absolute;
+    top: -20%;
+    left: -20%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(135deg, rgba(2, 213, 255, 0.06) 0%, rgba(2, 213, 255, 0) 60%);
+    pointer-events: none;
+}
+
+.contact-section::after {
+    content: "";
+    position: absolute;
+    right: 40px;
+    bottom: 40px;
+    width: 12px;
+    height: 12px;
+    background: #02D5FF;
+    border-radius: 50%;
+    box-shadow: 0 0 18px #02D5FF, 0 0 25px rgba(2, 213, 255, 0.7);
+    opacity: 0.6;
+}
+
+/* CORNER CIRCUIT LINES */
+.contact-card::before {
+    content: "";
+    position: absolute;
+    top: -6px;
+    left: -6px;
+    height: 20px;
+    width: 20px;
+    border-top: 2px solid rgba(2, 213, 255, 0.35);
+    border-left: 2px solid rgba(2, 213, 255, 0.35);
+    border-radius: 4px;
+    pointer-events: none;
+}
+
+.contact-card::after {
+    content: "";
+    position: absolute;
+    bottom: -6px;
+    right: -6px;
+    height: 20px;
+    width: 20px;
+    border-bottom: 2px solid rgba(2, 213, 255, 0.35);
+    border-right: 2px solid rgba(2, 213, 255, 0.35);
+    border-radius: 4px;
+    pointer-events: none;
+}
+
+/* MAIN HEADING */
+.main-heading {
+    font-size: 42px;
+    color: rgb(66, 169, 229);
+    text-align: center;
+    margin-bottom: 35px;
+    letter-spacing: 1px;
+    font-family: "Orbitron", sans-serif;
+
+    /* 🔽 New border box styling */
+        border: 3px solid rgba(2, 213, 255, 0.6);
+        padding: 12px 25px;
+        display: inline-block;
+        border-radius: 10px;
+        /*box-shadow: 0 0 12px rgba(2, 213, 255, 0.25);*/
+        text-shadow:
+                0 0 5px rgba(66, 169, 229, 0.7),
+                0 0 10px rgba(66, 169, 229, 0.5);
+}
+
+/* WRAPPER */
+.contact-wrapper {
+    display: flex;
+    justify-content: center;
+    gap: 45px;
+    width: 100%;
+    max-width: 1100px;
+}
+
+/* CARD BASE */
+.contact-card {
+    background: #0b1f2c;
+    border: 1px solid rgba(2, 213, 255, 0.25);
+    padding: 30px 35px;
+    width: 48%;
+    border-radius: 16px;
+    position: relative;
+
+    box-shadow: 0 0 18px rgba(2, 213, 255, 0.12);
+    transition: 0.3s ease;
+}
+
+.contact-card:hover {
+    box-shadow: 0 0 25px rgba(2, 213, 255, 0.2);
+    transform: translateY(-4px);
+}
+
+/* H2 TITLES */
+.contact-card h2,
+.location-card h2 {
+    font-family: "Orbitron", sans-serif;
+    color: rgb(66, 169, 229);
+    font-size: 32px;
+    margin-bottom: 20px;
+}
+
+/* INFO TEXT */
+.info-card .subtext {
+    color: #c5e2f9;
+    margin-bottom: 25px;
+    font-size: 20px;
+    font-family: "Roboto Mono", monospace;
+    line-height: 1.6;
+}
+
+/* INFO LINES */
+.info-line {
+    display: flex;
+    gap: 15px;
+    align-items: flex-start;
+    margin-bottom: 20px;
+    color: #c5e2f9;
+}
+
+.info-line p {
+    font-size: 18px;
+    font-family: "Roboto Mono", monospace;
+    letter-spacing: 0.3px;
+}
+
+.info-line i {
+    color: #02D5FF;
+    font-size: 24px;
+    line-height: 1.6;
+}
+
+/* LINK COLORS */
+.info-line a {
+    color: #7EE8FF;
+    text-decoration: none;
+    transition: 0.25s ease;
+    font-weight: 500;
+    font-family: "Roboto Mono", monospace;
+}
+
+.info-line a:hover {
+    color: #02D5FF;
+    text-shadow: 0 0 10px rgba(2, 213, 255, 0.9);
+    transform: translateX(2px);
+}
+
+/* SOCIALS */
+.social-box {
+    margin-top: 25px;
+}
+
+.social-box h3 {
+    color: #269DCC;
+    margin-bottom: 15px;
+    font-size: 20px;
+    letter-spacing: 1px;
+    font-family: "Roboto Mono", monospace;
+}
+
+.social-box a i {
+    color: #7EE8FF;
+    font-size: 28px;
+    margin-right: 15px;
+    transition: 0.3s ease;
+}
+
+.social-box a i:hover {
+    transform: scale(1.2);
+    color: #02D5FF;
+}
+
+/* LOCATION CARD */
+.location-card .subtext {
+    color: #c5e2f9;
+    font-size: 18px;
+    font-family: "Roboto Mono", monospace;
+    margin-bottom: 18px;
+}
+
+/* LIVE MAP BOX */
+.map-embed-box {
+    width: 100%;
+    height: 280px;
+    border-radius: 14px;
+    overflow: hidden;
+    border: 1px solid rgba(2, 213, 255, 0.25);
+        box-shadow: 0 0 18px rgba(2, 213, 255, 0.15);
+        margin-bottom: 18px;
+    }
+    
+    .map-embed-box iframe {
+        width: 100%;
+        height: 100%;
+        border: 0;
+    }
+    
+    /* Map link button */
+    .map-link {
+        display: inline-block;
+        margin-top: 8px;
+        color: #7EE8FF;
+        font-size: 18px;
+        font-family: "Roboto Mono", monospace;
+        /* ← UPDATED */
+        text-decoration: none;
+        transition: 0.3s ease;
+        font-weight: 600;
+    }
+    
+    .map-link:hover {
+        color: #02D5FF;
+        text-shadow: 0 0 10px rgba(2, 213, 255, 0.9);
+        transform: translateX(3px);
+    }
