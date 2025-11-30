@@ -108,7 +108,7 @@ body {
     letter-spacing: 1px;
     font-family: "Orbitron", sans-serif;
 
-    /* 🔽 New border box styling */
+    /* border box styling */
         border: 3px solid rgba(2, 213, 255, 0.6);
         padding: 12px 25px;
         display: inline-block;
