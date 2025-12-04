@@ -106,14 +106,6 @@ body, html {
   object-fit: cover;
 }
 
-/* 3 */
-/* @keyframes slide { 
-  0%   { transform: translateY(0); }
-  33%  { transform: translateY(-33.3333%); }
-  66%  { transform: translateY(-66.6666%); }
-  100% { transform: translateY(0); }
-} */
-
 /* 4 */
 @keyframes slide {
   0% { transform: translateY(0); }
@@ -142,7 +134,7 @@ body, html {
   margin-bottom: 5%;
   transition: transform 0.3s ease, color 0.3s ease;
   text-shadow: 0 0 2px #00eeff;
-  box-shadow: 9px 6px 20px 0px #4668a3;
+  box-shadow: 7px 6px 20px 0px #4668a3;
 }
 
 .event-text h3:hover {
@@ -191,9 +183,6 @@ body, html {
   border-radius: 8px;
   background: #171717;
 }
-/* .popup-content video { 
-    max-height: 60vh;
-} */
 
 .close {
   position: absolute;
