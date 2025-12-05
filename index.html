@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MLSAC BVP</title>
+
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <!-- Contact page CSS (same file your standalone ContactUs.html uses) -->
+    <link rel="stylesheet" href="us.css">
+    
+
+
+    <style>
+        /* --- GLOBAL RESET --- */
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: rgb(5, 17, 27);
+            color: #cccccc;
+            overflow: hidden;
+            height: 100vh;
+            width: 100vw;
+        }
+
+        /* --- TOP NAVIGATION BAR --- */
+        .top-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 30px;
+            background-color: #0b1f2c;
+            display: flex;
+            align-items: center;
+            padding: 0 10px;
+            z-index: 1000;
+            font-size: 13px;
+        }
+
+        .menu-items {
+            display: flex;
+            gap: 0;
+            color: #c3f1f7;
+        }
+        .menu-item {
+            padding: 4px 8px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .menu-item:hover {
+            background-color: rgba(135, 206, 250, 0.15);
+            color: #ffffff;
+        }
+
+        .search-bar-container {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 400px;
+            height: 22px;
+            background-color: rgb(26, 65, 88);
+            padding: 0 10px;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: text;
+        }
+        .search-text {
+            font-size: 12px;
+            font-weight: 600;
+            color: rgb(66, 169, 229);
+        }
+
+        /* --- ACTIVITY BAR --- */
+        .activity-bar {
+            position: fixed;
+            top: 30px;
+            left: 0;
+            height: calc(100vh - 52px); /* minus footer */
+            width: 60px;
+            background-color: #0b1f2c;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 15px;
+            z-index: 900;
+        }
+        .activity-bar i {
+            color: #1678a5;
+            opacity: 0.7;
+            font-size: 24px;
+            margin-bottom: 25px;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+        .activity-bar i:hover,
+        .activity-bar i.active {
+            opacity: 1;
+        }
+
+        /* --- EXPLORER SIDEBAR --- */
+        .explorer {
+            position: fixed;
+            top: 30px;
+            left: 60px;
+            width: 250px;
+            height: calc(100vh - 52px);
+            background-color: #050a13;
+            border-right: 1px solid #2b2b2b;
+            display: flex;
+            flex-direction: column;
+            z-index: 800;
+            overflow: auto;
+        }
+
+        .explorer-header {
+            padding: 10px 20px;
+            font-size: 12px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            display: flex;
+            justify-content: space-between;
+            color: #bbbbbb;
+        }
+
+        .file-tree {
+            padding-bottom: 10px;
+        }
+
+        .tree-item {
+            display: flex;
+            align-items: center;
+            padding: 3px 0;
+            cursor: pointer;
+            font-size: 14px;
+            color: #cccccc;
+            border: 1px solid transparent;
+        }
+        .tree-item:hover {
+            background-color: #17405c;
+            color: #ffffff;
+        }
+
+        .indent-1 { padding-left: 20px; }
+        .indent-2 { padding-left: 38px; }
+
+        .tree-item i.icon {
+            margin-right: 6px;
+            width: 16px;
+            text-align: center;
+        }
+        .icon-css { color: #42a5f5; }
+        .icon-html { color: #e44d26; }
+        .icon-react { color: #61dafb; }
+        .icon-txt { color: #44caf7; }
+        .icon-folder { color: #b9f02e; font-size: 10px; width: 16px; }
+
+        /* --- TABS BAR --- */
+        .tab-bar {
+            position: fixed;
+            top: 30px;
+            left: 310px; /* 60 + 250 */
+            width: calc(100% - 310px);
+            height: 35px;
+            background-color: rgb(5, 17, 27);
+            display: none;
+            overflow-x: auto;
+        }
+        .tab-bar.visible { display: flex; }
+
+        .tab {
+            min-width: 120px;
+            max-width: 200px;
+            height: 100%;
+            background-color: rgb(5, 17, 27);
+            color: #266c7d;
+            display: flex;
+            align-items: center;
+            padding: 0 10px;
+            font-size: 13px;
+            border-right: 1px solid #252526;
+            cursor: pointer;
+            position: relative;
+        }
+        .tab.active {
+            background-color: #050a13;
+            color: #ffffff;
+            border-top: 1px solid #007fd4;
+        }
+
+        .tab-icon { margin-right: 6px; font-size: 12px; }
+        .tab-name {
+            flex-grow: 1;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .tab-close {
+            width: 16px;
+            height: 18px;
+            border-radius: 3px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            margin-left: 6px;
+            opacity: 0;
+            transition: background-color 0.2s;
+        }
+        .tab:hover .tab-close { opacity: 1; }
+        .tab-close:hover {
+            background-color: #244a5e;
+            color: white;
+        }
+
+        /* --- MAIN CONTENT AREA --- */
+        .main-content {
+            position: fixed;
+            top: 65px;
+            left: 310px;
+            width: calc(100% - 310px);
+            height: calc(100vh - 87px); /* minus top bar + footer, no terminal */
+            background-color: rgb(11, 37, 59);
+            padding: 20px;
+            color: #06cdff;
+            overflow: auto;
+        }
+
+        .empty-state {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            opacity: 0.4;
+        }
+
+        /* --- TERMINAL PANEL --- */
+        .terminal-panel {
+            position: fixed;
+            bottom: 22px;
+            left: 310px;
+            width: calc(100% - 310px);
+            height: 180px;
+            background-color: #050a13;
+            border-top: 1px solid #2b2b2b;
+            z-index: 950;
+            display: none;
+            flex-direction: column;
+        }
+
+        .terminal-header {
+            display: flex;
+            gap: 20px;
+            padding: 8px 20px;
+            background-color: #0b1f2c;
+            font-size: 11px;
+            text-transform: uppercase;
+            color: #bbbbbb;
+            border-bottom: 1px solid #2b2b2b;
+        }
+        .terminal-tab {
+            cursor: pointer;
+            padding-bottom: 2px;
+        }
+        .terminal-tab.active {
+            border-bottom: 1px solid #ffffff;
+            color: white;
+        }
+
+        .terminal-body {
+            padding: 10px;
+            font-family: 'Consolas', 'Courier New', monospace;
+            color: #cccccc;
+            font-size: 13px;
+            overflow-y: auto;
+            flex-grow: 1;
+        }
+        .prompt { color: #b9f02e; margin-right: 8px; }
+        .command-line { display: flex; align-items: center; }
+        .cursor {
+            width: 8px;
+            height: 16px;
+            background-color: #cccccc;
+            animation: blink 1s infinite;
+        }
+        @keyframes blink {
+            0% { opacity: 0; }
+            50% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+
+        /* --- FOOTER (STATUS BAR) --- */
+        .footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 22px;
+            background-color: #014470;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 10px;
+            z-index: 1001;
+            font-size: 12px;
+            color: white;
+        }
+        .footer-left,
+        .footer-right {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+        .footer-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            cursor: default;
+        }
+
+        /* Override margins so ContactUs section fits nicely in editor */
+        .main-content .contact-section {
+            margin: -18px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 1. Top Bar -->
+    <div class="top-bar">
+        <div class="menu-items">
+            <div class="menu-item">
+                <i class="fa-brands fa-windows" style="color: rgb(66, 169,229)"></i>
+            </div>
+            <div class="menu-item">File</div>
+            <div class="menu-item">Edit</div>
+            <div class="menu-item">Selection</div>
+            <div class="menu-item">View</div>
+            <div class="menu-item">Go</div>
+            <div class="menu-item">Run</div>
+            <div class="menu-item" onclick="toggleTerminal()">Terminal</div>
+            <div class="menu-item">Help</div>
+        </div>
+        <div class="search-bar-container">
+            <i class="fa-solid fa-magnifying-glass"
+               style="color:rgb(66, 169,229); margin-right: 8px; font-size: 12px;"></i>
+            <span class="search-text">MLSAC BVP</span>
+        </div>
+    </div>
+
+    <!-- 2. Activity Bar -->
+    <div class="activity-bar">
+        <i class="fa-regular fa-file active" title="Explorer"></i>
+        <i class="fa-solid fa-magnifying-glass" title="Search"></i>
+        <i class="fa-solid fa-code-branch" title="Source Control"></i>
+        <i class="fa-solid fa-play" title="Run & Debug"></i>
+        <i class="fa-solid fa-border-all" title="Extensions"></i>
+        <i class="fa-regular fa-circle-user" style="margin-top: auto;" title="Accounts"></i>
+        <i class="fa-solid fa-gear" title="Manage"></i>
+    </div>
+
+    <!-- 3. Explorer -->
+    <div class="explorer">
+        <div class="explorer-header">
+            <span>EXPLORER</span>
+            <i class="fa-solid fa-ellipsis" style="cursor: pointer;"></i>
+        </div>
+
+        <div class="file-tree">
+            <div class="tree-item indent-1"
+                 onclick="openFile('Welcome.css','fa-brands fa-css3','#42a5f5')">
+                <i class="fa-brands fa-css3 icon icon-css"></i>
+                <span>Welcome.css</span>
+            </div>
+            <div class="tree-item indent-1"
+                 onclick="openFile('AboutUs.html','fa-regular fa-file-lines','#cccccc')">
+                <i class="fa-regular fa-file-lines icon icon-txt"></i>
+                <span>AboutUs.html</span>
+            </div>
+            <div class="tree-item indent-1"
+                 onclick="openFile('Events.html','fa-brands fa-html5','#e44d26')">
+                <i class="fa-brands fa-html5 icon icon-html"></i>
+                <span>Events.html</span>
+            </div>
+
+            <div class="tree-item indent-1">
+                <i class="fa-solid fa-chevron-down icon-folder"></i>
+                <span>Team Folder</span>
+            </div>
+
+            <div class="tree-item indent-2"
+                 onclick="openFile('Core.html','fa-brands fa-html5','#e44d26')">
+                <i class="fa-brands fa-html5 icon icon-html"></i>
+                <span>Core.html</span>
+            </div>
+            <div class="tree-item indent-2"
+                 onclick="openFile('Heads.html','fa-brands fa-html5','#e44d26')">
+                <i class="fa-brands fa-html5 icon icon-html"></i>
+                <span>Heads.html</span>
+            </div>
+
+            <!-- When this is clicked, we will load ContactUs.html and render it -->
+            <div class="tree-item indent-1"
+                 onclick="openFile('ContactUs.jsx','fa-brands fa-react','#61dafb')">
+                <i class="fa-brands fa-react icon icon-react"></i>
+                <span>ContactUs.jsx</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- 4. Tabs Bar -->
+    <div class="tab-bar" id="tabBar"></div>
+
+    <!-- 5. Main Content -->
+    <div class="main-content" id="mainContent">
+        <div class="empty-state">
+            <i class="fa-brands fa-codepen"
+               style="font-size: 100px; color: #1678a5; margin-bottom: 20px;"></i>
+            <p>Select a file from the Explorer to open</p>
+        </div>
+    </div>
+
+    <!-- 6. Terminal Panel -->
+    <div class="terminal-panel" id="terminalPanel">
+        <div class="terminal-header">
+            <span class="terminal-tab">PROBLEMS</span>
+            <span class="terminal-tab">OUTPUT</span>
+            <span class="terminal-tab">DEBUG CONSOLE</span>
+            <span class="terminal-tab active">TERMINAL</span>
+            <span class="terminal-tab">GITLENS</span>
+        </div>
+        <div class="terminal-body">
+            <div>Microsoft Windows [Version 10.0.19045.3570]</div>
+            <div>(c) Microsoft Corporation. All rights reserved.</div>
+            <br>
+            <div class="command-line">
+                <span class="prompt">C:\Users\MLSAC-BVP></span>
+                <span>npm start</span>
+            </div>
+            <div style="color: #44caf7; margin-top: 5px;">> mlsac-website@1.0.0 start</div>
+            <div style="color: #44caf7;">> react-scripts start</div>
+            <br>
+            <div style="color: #b9f02e;">Starting the development server...</div>
+            <br>
+            <div class="command-line">
+                <span class="prompt">C:\Users\MLSAC-BVP></span>
+                <div class="cursor"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 7. Footer (Status Bar) -->
+    <div class="footer">
+        <div class="footer-left">
+            <div class="footer-item" style="background-color: #0b5875; padding: 0 5px; height: 100%;">
+                <i class="fa-solid fa-code-branch" style="font-size: 10px;"></i>
+                <span>main</span>
+            </div>
+            <div class="footer-item">
+                <i class="fa-regular fa-circle-xmark"></i> 0
+                <i class="fa-solid fa-triangle-exclamation"></i> 0
+            </div>
+        </div>
+        <div class="footer-right">
+            <div class="footer-item">Ln 12, Col 44</div>
+            <div class="footer-item">UTF-8</div>
+            <div class="footer-item">CRLF</div>
+            <div class="footer-item" id="langStatus">HTML</div>
+            <div class="footer-item"><i class="fa-regular fa-bell"></i></div>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        const tabBar = document.getElementById('tabBar');
+        const mainContent = document.getElementById('mainContent');
+        const terminalPanel = document.getElementById('terminalPanel');
+        const langStatus = document.getElementById('langStatus');
+
+        let openTabs = [];
+        let activeTabName = null;
+
+        function toggleTerminal() {
+            if (terminalPanel.style.display === 'flex') {
+                terminalPanel.style.display = 'none';
+                mainContent.style.height = 'calc(100vh - 87px)';
+            } else {
+                terminalPanel.style.display = 'flex';
+                mainContent.style.height = 'calc(100vh - 267px)';
+            }
+        }
+
+        function openFile(fileName, iconClass, iconColor) {
+            if (!openTabs.find(t => t.name === fileName)) {
+                openTabs.push({ name: fileName, iconClass, iconColor });
+            }
+            activeTabName = fileName;
+            renderTabs();
+            updateContent(fileName);
+            updateStatusLanguage(fileName);
+        }
+
+        function closeTab(event, fileName) {
+            event.stopPropagation();
+            openTabs = openTabs.filter(t => t.name !== fileName);
+
+            if (activeTabName === fileName) {
+                if (openTabs.length > 0) {
+                    activeTabName = openTabs[openTabs.length - 1].name;
+                    updateContent(activeTabName);
+                    updateStatusLanguage(activeTabName);
+                } else {
+                    activeTabName = null;
+                    resetContent();
+                    langStatus.innerText = 'Plain Text';
+                }
+            }
+            renderTabs();
+        }
+
+        function renderTabs() {
+            if (openTabs.length === 0) {
+                tabBar.classList.remove('visible');
+                return;
+            }
+            tabBar.classList.add('visible');
+            tabBar.innerHTML = '';
+
+            openTabs.forEach(tab => {
+                const isActive = tab.name === activeTabName ? 'active' : '';
+                const tabEl = document.createElement('div');
+                tabEl.className = `tab ${isActive}`;
+                tabEl.onclick = () => {
+                    activeTabName = tab.name;
+                    renderTabs();
+                    updateContent(tab.name);
+                    updateStatusLanguage(tab.name);
+                };
+                tabEl.innerHTML = `
+                    <i class="${tab.iconClass} tab-icon" style="color:${tab.iconColor}"></i>
+                    <span class="tab-name">${tab.name}</span>
+                    <div class="tab-close" onclick="closeTab(event,'${tab.name}')">
+                        <i class="fa-solid fa-xmark"></i>
+                    </div>
+                `;
+                tabBar.appendChild(tabEl);
+            });
+        }
+
+        // Fetch and display file content.
+        // Special case: ContactUs.jsx loads and renders ContactUs.html's section.contact-section.
+        async function updateContent(fileName) {
+            mainContent.innerHTML = '<div style="padding:20px;color:#c5e2f9;">Loading...</div>';
+
+            // Map ContactUs.jsx -> ContactUs.html for actual HTML content
+            const fileToFetch = fileName === 'ContactUs.jsx'
+                ? 'ContactUs.html'
+                : fileName;
+
+            try {
+                const response = await fetch(fileToFetch);
+                if (!response.ok) {
+                    throw new Error('File not found or cannot be loaded: ' + fileToFetch);
+                }
+                const text = await response.text();
+
+                if (fileName === 'ContactUs.jsx') {
+                    // Parse HTML and extract the .contact-section node[web:121][web:126][web:128]
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(text, 'text/html');
+                    const section = doc.querySelector('.contact-section');
+
+                    if (section) {
+                        // Render the actual Contact Us UI inside the editor
+                        mainContent.innerHTML = section.outerHTML;
+                    } else {
+                        // Fallback: show raw HTML as code
+                        const escaped = text
+                            .replace(/&/g, '&amp;')
+                            .replace(/</g, '&lt;')
+                            .replace(/>/g, '&gt;');
+                        mainContent.innerHTML = `<pre>${escaped}</pre>`;
+                    }
+                } else {
+                    // Default: show source code
+                    let escaped = text
+                        .replace(/&/g, '&amp;')
+                        .replace(/</g, '&lt;')
+                        .replace(/>/g, '&gt;');
+                    mainContent.innerHTML = `<pre>${escaped}</pre>`;
+                }
+            } catch (err) {
+                mainContent.innerHTML = `
+                    <div style="padding:20px;color:#f48771;">
+                        <h3>Error loading ${fileToFetch}</h3>
+                        <p>${err.message}</p>
+                        <p style="margin-top:10px;font-size:12px;opacity:0.8;">
+                            Tip: Open this project with a local server (for example, VS Code Live Server)
+                            so that <code>fetch()</code> can read local files.
+                        </p>
+                    </div>
+                `;
+                console.error(err);
+            }
+        }
+
+        function resetContent() {
+            mainContent.innerHTML = `
+                <div class="empty-state">
+                    <i class="fa-brands fa-codepen"
+                       style="font-size: 100px; color: #1678a5; margin-bottom: 20px;"></i>
+                    <p>Select a file from the Explorer to open</p>
+                </div>
+            `;
+        }
+
+        function updateStatusLanguage(fileName) {
+            if (fileName.endsWith('.html')) langStatus.innerText = 'HTML';
+            else if (fileName.endsWith('.css')) langStatus.innerText = 'CSS';
+            else if (fileName.endsWith('.jsx')) langStatus.innerText = 'JavaScript React';
+            else langStatus.innerText = 'Plain Text';
+        }
+    </script>
+</body>
+</html>
