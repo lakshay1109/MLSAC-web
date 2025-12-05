@@ -163,14 +163,23 @@
     </div>
 
     <!-- JAVASCRIPT LOGIC -->
-    <script>
+        <script>
         const tabBar = document.getElementById('tabBar');
         const mainContent = document.getElementById('mainContent');
         const terminalPanel = document.getElementById('terminalPanel');
         const langStatus = document.getElementById('langStatus');
-
+        
         let openTabs = [];
         let activeTabName = null;
+
+        // Helper: Clear the main content area effectively
+        function clearMainContent() {
+            // If we previously attached a Shadow Root, we can't remove it easily,
+            // so we empty the container.
+            mainContent.innerHTML = '';
+            // Remove the open-shadow class to reset scrolling behavior
+            mainContent.classList.remove('has-shadow');
+        }
 
         function toggleTerminal() {
             if (terminalPanel.style.display === 'flex') {
@@ -195,7 +204,6 @@
         function closeTab(event, fileName) {
             event.stopPropagation();
             openTabs = openTabs.filter(t => t.name !== fileName);
-
             if (activeTabName === fileName) {
                 if (openTabs.length > 0) {
                     activeTabName = openTabs[openTabs.length - 1].name;
@@ -211,72 +219,132 @@
         }
 
         function renderTabs() {
-            if (openTabs.length === 0) {
-                tabBar.classList.remove('visible');
-                return;
-            }
+            if (openTabs.length === 0) { tabBar.classList.remove('visible'); return; }
             tabBar.classList.add('visible');
             tabBar.innerHTML = '';
-
             openTabs.forEach(tab => {
                 const isActive = tab.name === activeTabName ? 'active' : '';
                 const tabEl = document.createElement('div');
                 tabEl.className = `tab ${isActive}`;
-                tabEl.onclick = () => {
-                    activeTabName = tab.name;
-                    renderTabs();
-                    updateContent(tab.name);
-                    updateStatusLanguage(tab.name);
-                };
-                tabEl.innerHTML = `
-                    <i class="${tab.iconClass} tab-icon" style="color:${tab.iconColor}"></i>
-                    <span class="tab-name">${tab.name}</span>
-                    <div class="tab-close" onclick="closeTab(event,'${tab.name}')">
-                        <i class="fa-solid fa-xmark"></i>
-                    </div>
-                `;
+                tabEl.onclick = () => { activeTabName = tab.name; renderTabs(); updateContent(tab.name); updateStatusLanguage(tab.name); };
+                tabEl.innerHTML = `<i class="${tab.iconClass} tab-icon" style="color:${tab.iconColor}"></i> <span class="tab-name">${tab.name}</span> <div class="tab-close" onclick="closeTab(event,'${tab.name}')"><i class="fa-solid fa-xmark"></i></div>`;
                 tabBar.appendChild(tabEl);
             });
         }
 
-       
         async function updateContent(fileName) {
-            mainContent.innerHTML = '<div style="padding:20px;color:#c5e2f9;">Loading...</div>';
+            // Clear previous content
+            clearMainContent(); 
             
-            // MAPPING FILES TO EXTERNAL HTML
+            // 1. Create a wrapper for loading message
+            const loadingDiv = document.createElement('div');
+            loadingDiv.style.padding = '20px';
+            loadingDiv.style.color = '#c5e2f9';
+            loadingDiv.innerText = 'Loading...';
+            mainContent.appendChild(loadingDiv);
+
             let fileToFetch = fileName;
             if (fileName === 'ContactUs.jsx') fileToFetch = 'ContactUs.html';
-            if (fileName === 'AboutUs.html') fileToFetch = 'aboutpage.html'; // NEW MAPPING
+            if (fileName === 'AboutUs.html') fileToFetch = 'aboutpage.html';
+            if (fileName === 'Core.html') fileToFetch = 'Core_Team.html';
+            if (fileName === 'Heads.html') fileToFetch = 'head.html'; 
 
             try {
                 const response = await fetch(fileToFetch);
                 if (!response.ok) throw new Error('File not found: ' + fileToFetch);
                 const text = await response.text();
-                const parser = new DOMParser();
-                const doc = parser.parseFromString(text, 'text/html');
-
-                if (fileName === 'ContactUs.jsx') {
-                    const section = doc.querySelector('.contact-section');
-                    mainContent.innerHTML = section ? section.outerHTML : `<pre>${text.replace(/</g, '&lt;')}</pre>`;
                 
-                } else if (fileName === 'AboutUs.html') {
-                    // EXTRACT THE CONTENT FOR ABOUT US
-                    const layout = doc.querySelector('.original-layout');
-                    // We also need to inject the <style> from aboutpage.html if it has specific vars
-                    // But your provided aboutpage.html has styles in <head>. 
-                    // Since we are parsing string, we can try to grab the style block too or just rely on the inline extracted content.
-                    // A better approach for simple injection:
+                // Clear loading message
+                mainContent.innerHTML = '';
+
+                if (['AboutUs.html', 'Core.html', 'Heads.html',].includes(fileName)) {
+                    // --- SHADOW DOM STRATEGY ---
+                    // This creates a perfect sandbox. Styles inside won't leak out, 
+                    // styles outside won't leak in.
                     
-                    if (layout) {
-                        // We append the style block from the external file to ensure variables work
-                        const styleBlock = doc.querySelector('style');
-                        mainContent.innerHTML = (styleBlock ? styleBlock.outerHTML : '') + layout.outerHTML;
-                    } else {
-                        mainContent.innerHTML = `<pre>${text.replace(/</g, '&lt;')}</pre>`;
+                    // Create a host div for the shadow root
+                    const hostElement = document.createElement('div');
+                    hostElement.style.width = '100%';
+                    hostElement.style.height = '100%';
+                    // Allow the host to scroll if needed
+                    hostElement.style.overflow = 'auto'; 
+                    mainContent.appendChild(hostElement);
+
+                    const shadowRoot = hostElement.attachShadow({ mode: 'open' });
+                    
+                    // Parse the fetched HTML
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(text, 'text/html');
+
+                    // 1. Extract Styles
+                    const styleTags = doc.querySelectorAll('style');
+                    let combinedCSS = "";
+                    styleTags.forEach(tag => combinedCSS += tag.textContent);
+
+                    // 2. Extract Content
+                    // For Core/Heads, try to get #main-content (to skip sidebar), else fallback to body
+                    // For AboutUs, try to get .original-layout
+                    let contentHTML = "";
+                    
+                    if (fileName === 'AboutUs.html') {
+                         const layout = doc.querySelector('.original-layout');
+                         contentHTML = layout ? layout.outerHTML : doc.body.innerHTML;
+                         
+                         // Reset margins for About Page specifically inside Shadow DOM
+                         combinedCSS += `
+                            body, .original-layout { margin: 0 !important; padding: 0 !important; width: 100%; }
+                            .container { width: 100%; max-width: 1000px; margin: 0 auto; }
+                         `;
+                    } 
+                    else {
+                        // Core & Heads
+                        const mainDiv = doc.querySelector('#main-content');
+                        if (mainDiv) {
+                            contentHTML = mainDiv.innerHTML;
+                            // Important: The original CSS likely references #main-content
+                            // Since we are taking the INNER HTML, we need to wrap it or adjust CSS.
+                            // Easier approach: Wrap it in a div with id="main-content" so CSS still matches
+                            contentHTML = `<div id="main-content" style="margin:0; padding:20px; height:auto;">${contentHTML}</div>`;
+                            
+                            // Add override CSS to fix margins inside the sandbox
+                            combinedCSS += `
+                                body { margin: 0; padding: 0; background: transparent; }
+                                #main-content { margin: -10 !important; width: 100% !important; }
+                            `;
+                        } else {
+                            contentHTML = doc.body ? doc.body.innerHTML : text;
+                        }
                     }
 
+                    // 3. Inject into Shadow DOM
+                    shadowRoot.innerHTML = `
+                        <style>
+                            /* Basic reset for the shadow DOM */
+                            :host { display: flex ; width: 100%; height: 100%; margin: -20; padding: 0; box-sizing: border-box; }
+                            /* Scrollbar styling to match your theme */
+                            ::-webkit-scrollbar { width: 0px; }
+                            ::-webkit-scrollbar-track { background: #0b1f2c; }
+                            ::-webkit-scrollbar-thumb { background: #1678a5; border-radius: 5px; }
+                            ::-webkit-scrollbar-thumb:hover { background: #42a5f5; }
+                            
+                            ${combinedCSS}
+                        </style>
+                        ${contentHTML}
+                    `;
+
+                } else if (fileName === 'ContactUs.jsx') {
+                    // Keep ContactUs logic as simple HTML injection (no shadow dom needed if CSS is simple)
+                    // or convert this to ShadowDOM too if needed. Keeping it simple as requested before.
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(text, 'text/html');
+                    const section = doc.querySelector('.contact-section');
+                    mainContent.innerHTML = section ? section.outerHTML : `<pre>${text.replace(/</g, '&lt;')}</pre>`;
+
+                    
+                
                 } else {
-                    mainContent.innerHTML = `<pre style="padding:10px">${text.replace(/</g, '&lt;')}</pre>`;
+                    // Default code view
+                    mainContent.innerHTML = `<pre style="padding:10px;">${text.replace(/</g, '&lt;')}</pre>`;
                 }
             } catch (err) {
                 mainContent.innerHTML = `<div style="padding:20px;color:red;">Error: ${err.message}. Use a local server.</div>`;
@@ -284,21 +352,17 @@
         }
 
         function resetContent() {
-            mainContent.innerHTML = `
-                <div class="empty-state">
-                    <i class="fa-brands fa-codepen"
-                       style="font-size: 100px; color: #1678a5; margin-bottom: 20px;"></i>
-                    <p>Select a file from the Explorer to open</p>
-                </div>
-            `;
+            clearMainContent();
+            mainContent.innerHTML = `<div class="empty-state"><i class="fa-brands fa-codepen" style="font-size: 100px; color: #1678a5; margin-bottom: 20px;"></i><p>Select a file from the Explorer to open</p></div>`;
         }
 
         function updateStatusLanguage(fileName) {
             if (fileName.endsWith('.html')) langStatus.innerText = 'HTML';
+            else if (fileName.endsWith('.jsx')) langStatus.innerText = 'JavaScript ';
             else if (fileName.endsWith('.css')) langStatus.innerText = 'CSS';
-            else if (fileName.endsWith('.jsx')) langStatus.innerText = 'JavaScript React';
             else langStatus.innerText = 'Plain Text';
         }
     </script>
+
 </body>
 </html>

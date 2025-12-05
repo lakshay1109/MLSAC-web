@@ -342,4 +342,34 @@
         }
         .main-content .container .content {
             max-width: 100% !important;
+            
         }
+
+        /* Core & Heads Override */
+        /* Ensure extracted content fits the area */
+        /* #scoped-core-content, #scoped-heads-content {
+            width: 98%;
+            height: 100%;
+            margin: -12;
+            overflow-y: auto;
+            padding: 20px;
+        } */
+        /* Reset sidebar/main-content styles from the loaded file so they don't float weirdly */
+        /* #scoped-core-content #main-content, 
+        #scoped-heads-content #main-content {
+            margin: 0 !important;
+            padding: 0 !important;
+            height: auto !important;
+            width: 100% !important;
+            background: transparent !important;
+            overflow: visible !important;
+        } */
+        /* Hide the sidebar from the loaded file if it exists */
+        /* #scoped-core-content #sidebar,
+        #scoped-heads-content #sidebar,
+        #scoped-core-content #header,
+        #scoped-heads-content #header,
+        #scoped-core-content #top-tabs,
+        #scoped-heads-content #top-tabs {
+            display: none !important;
+        } */
