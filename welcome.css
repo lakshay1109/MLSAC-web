@@ -1,0 +1,192 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.container {
+    background-color: #17354d;
+}
+
+nav {
+    height: 8vh;
+}
+
+.main {
+    display: flex;
+}
+
+.sidebar {
+    width: 20vw;
+    height: calc(100vh - 8vh);
+}
+
+.hero {
+    background-color: #05121b;
+    padding: 50px;
+    width: 80vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.content {
+    background-color: #17354d;
+    width: 85%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 50px 50px 50px;
+    border-radius: 20px;
+    border: 1px solid rgba(50, 190, 190, 0.35);
+    box-shadow: 0 0 20px rgba(50, 190, 190, 0.25), 0 20px 40px rgba(0, 0, 0, 0.6);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+    opacity: 0;
+    transform: translateY(30px);
+    animation: contentSlideUp 0.44s ease-out forwards 0.4s;
+    position: relative;
+    overflow: hidden;
+}
+
+.content:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 0 35px rgba(50, 190, 190, 0.45), 0 25px 50px rgba(0, 0, 0, 0.75);
+    border-color: rgba(50, 190, 190, 0.65);
+}
+
+.logo img {
+    width: 100%;
+    max-width: 500px;
+    animation: glowPulse 3s ease-in-out infinite;
+}
+
+.heading {
+    font-size: 47px;
+    font-family: "Orbitron", sans-serif;
+    font-weight: 800;
+    color: rgb(50, 190, 190);
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    border-right: 2px solid rgb(50, 190, 190);
+    width: 0;
+    animation: typingHeading 1.3s steps(16, end) forwards,
+        caretBlink 0.75s step-end infinite;
+}
+
+.text {
+    font-size: 20px;
+    font-family: "Roboto Mono", monospace;
+    font-weight: 500;
+    color: white;
+    margin: 10px;
+    line-height: 1.7;
+    text-align: center;
+    opacity: 0;
+    transform: translateY(10px);
+    animation: textFade 0.5s ease-out 0.7s forwards;
+    transition: color 0.3s ease, letter-spacing 0.3s ease;
+}
+
+
+@keyframes typingHeading {
+    from {
+        width: 0;
+    }
+
+    to {
+        width: 16ch;
+    }
+}
+
+@keyframes caretBlink {
+    0% {
+        border-right-color: rgb(50, 190, 190);
+    }
+
+    50% {
+        border-right-color: transparent;
+    }
+
+    100% {
+        border-right-color: rgb(50, 190, 190);
+    }
+}
+
+@keyframes textFade {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes glowPulse {
+    0% {
+        filter: drop-shadow(0 0 10px rgba(50, 190, 190, 0.2));
+    }
+
+    50% {
+        filter: drop-shadow(0 0 22px rgba(50, 190, 190, 0.5));
+    }
+
+    100% {
+        filter: drop-shadow(0 0 10px rgba(50, 190, 190, 0.2));
+    }
+}
+
+
+@keyframes contentSlideUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+.content::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -150%;
+    width: 120%;
+    height: 100%;
+    background: linear-gradient(120deg,
+            transparent 0%,
+            rgba(50, 190, 190, 0.08) 45%,
+            rgba(50, 190, 190, 0.18) 50%,
+            rgba(50, 190, 190, 0.08) 55%,
+            transparent 100%);
+    transform: skewX(-25deg);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+}
+
+.content:hover::after {
+    opacity: 1;
+    animation: lightScan 1.4s ease-out forwards;
+}
+
+@keyframes lightScan {
+    0% {
+        left: -150%;
+    }
+
+    100% {
+        left: 150%;
+    }
+}
