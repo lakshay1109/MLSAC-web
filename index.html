@@ -11,329 +11,10 @@
 
     <!-- Contact page CSS (same file your standalone ContactUs.html uses) -->
     <link rel="stylesheet" href="us.css">
-    
 
+    <link rel="stylesheet" href="styles.css">
 
-    <style>
-        /* --- GLOBAL RESET --- */
-        * { box-sizing: border-box; }
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: rgb(5, 17, 27);
-            color: #cccccc;
-            overflow: hidden;
-            height: 100vh;
-            width: 100vw;
-        }
-
-        /* --- TOP NAVIGATION BAR --- */
-        .top-bar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 30px;
-            background-color: #0b1f2c;
-            display: flex;
-            align-items: center;
-            padding: 0 10px;
-            z-index: 1000;
-            font-size: 13px;
-        }
-
-        .menu-items {
-            display: flex;
-            gap: 0;
-            color: #c3f1f7;
-        }
-        .menu-item {
-            padding: 4px 8px;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.2s;
-        }
-        .menu-item:hover {
-            background-color: rgba(135, 206, 250, 0.15);
-            color: #ffffff;
-        }
-
-        .search-bar-container {
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 400px;
-            height: 22px;
-            background-color: rgb(26, 65, 88);
-            padding: 0 10px;
-            border-radius: 5px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: text;
-        }
-        .search-text {
-            font-size: 12px;
-            font-weight: 600;
-            color: rgb(66, 169, 229);
-        }
-
-        /* --- ACTIVITY BAR --- */
-        .activity-bar {
-            position: fixed;
-            top: 30px;
-            left: 0;
-            height: calc(100vh - 52px); /* minus footer */
-            width: 60px;
-            background-color: #0b1f2c;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding-top: 15px;
-            z-index: 900;
-        }
-        .activity-bar i {
-            color: #1678a5;
-            opacity: 0.7;
-            font-size: 24px;
-            margin-bottom: 25px;
-            cursor: pointer;
-            transition: opacity 0.2s;
-        }
-        .activity-bar i:hover,
-        .activity-bar i.active {
-            opacity: 1;
-        }
-
-        /* --- EXPLORER SIDEBAR --- */
-        .explorer {
-            position: fixed;
-            top: 30px;
-            left: 60px;
-            width: 250px;
-            height: calc(100vh - 52px);
-            background-color: #050a13;
-            border-right: 1px solid #2b2b2b;
-            display: flex;
-            flex-direction: column;
-            z-index: 800;
-            overflow: auto;
-        }
-
-        .explorer-header {
-            padding: 10px 20px;
-            font-size: 12px;
-            font-weight: bold;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            display: flex;
-            justify-content: space-between;
-            color: #bbbbbb;
-        }
-
-        .file-tree {
-            padding-bottom: 10px;
-        }
-
-        .tree-item {
-            display: flex;
-            align-items: center;
-            padding: 3px 0;
-            cursor: pointer;
-            font-size: 14px;
-            color: #cccccc;
-            border: 1px solid transparent;
-        }
-        .tree-item:hover {
-            background-color: #17405c;
-            color: #ffffff;
-        }
-
-        .indent-1 { padding-left: 20px; }
-        .indent-2 { padding-left: 38px; }
-
-        .tree-item i.icon {
-            margin-right: 6px;
-            width: 16px;
-            text-align: center;
-        }
-        .icon-css { color: #42a5f5; }
-        .icon-html { color: #e44d26; }
-        .icon-react { color: #61dafb; }
-        .icon-txt { color: #44caf7; }
-        .icon-folder { color: #b9f02e; font-size: 10px; width: 16px; }
-
-        /* --- TABS BAR --- */
-        .tab-bar {
-            position: fixed;
-            top: 30px;
-            left: 310px; /* 60 + 250 */
-            width: calc(100% - 310px);
-            height: 35px;
-            background-color: rgb(5, 17, 27);
-            display: none;
-            overflow-x: auto;
-        }
-        .tab-bar.visible { display: flex; }
-
-        .tab {
-            min-width: 120px;
-            max-width: 200px;
-            height: 100%;
-            background-color: rgb(5, 17, 27);
-            color: #266c7d;
-            display: flex;
-            align-items: center;
-            padding: 0 10px;
-            font-size: 13px;
-            border-right: 1px solid #252526;
-            cursor: pointer;
-            position: relative;
-        }
-        .tab.active {
-            background-color: #050a13;
-            color: #ffffff;
-            border-top: 1px solid #007fd4;
-        }
-
-        .tab-icon { margin-right: 6px; font-size: 12px; }
-        .tab-name {
-            flex-grow: 1;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .tab-close {
-            width: 16px;
-            height: 18px;
-            border-radius: 3px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 12px;
-            margin-left: 6px;
-            opacity: 0;
-            transition: background-color 0.2s;
-        }
-        .tab:hover .tab-close { opacity: 1; }
-        .tab-close:hover {
-            background-color: #244a5e;
-            color: white;
-        }
-
-        /* --- MAIN CONTENT AREA --- */
-        .main-content {
-            position: fixed;
-            top: 65px;
-            left: 310px;
-            width: calc(100% - 310px);
-            height: calc(100vh - 87px); /* minus top bar + footer, no terminal */
-            background-color: rgb(11, 37, 59);
-            padding: 20px;
-            color: #06cdff;
-            overflow: auto;
-        }
-
-        .empty-state {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100%;
-            opacity: 0.4;
-        }
-
-        /* --- TERMINAL PANEL --- */
-        .terminal-panel {
-            position: fixed;
-            bottom: 22px;
-            left: 310px;
-            width: calc(100% - 310px);
-            height: 180px;
-            background-color: #050a13;
-            border-top: 1px solid #2b2b2b;
-            z-index: 950;
-            display: none;
-            flex-direction: column;
-        }
-
-        .terminal-header {
-            display: flex;
-            gap: 20px;
-            padding: 8px 20px;
-            background-color: #0b1f2c;
-            font-size: 11px;
-            text-transform: uppercase;
-            color: #bbbbbb;
-            border-bottom: 1px solid #2b2b2b;
-        }
-        .terminal-tab {
-            cursor: pointer;
-            padding-bottom: 2px;
-        }
-        .terminal-tab.active {
-            border-bottom: 1px solid #ffffff;
-            color: white;
-        }
-
-        .terminal-body {
-            padding: 10px;
-            font-family: 'Consolas', 'Courier New', monospace;
-            color: #cccccc;
-            font-size: 13px;
-            overflow-y: auto;
-            flex-grow: 1;
-        }
-        .prompt { color: #b9f02e; margin-right: 8px; }
-        .command-line { display: flex; align-items: center; }
-        .cursor {
-            width: 8px;
-            height: 16px;
-            background-color: #cccccc;
-            animation: blink 1s infinite;
-        }
-        @keyframes blink {
-            0% { opacity: 0; }
-            50% { opacity: 1; }
-            100% { opacity: 0; }
-        }
-
-        /* --- FOOTER (STATUS BAR) --- */
-        .footer {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 22px;
-            background-color: #014470;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 10px;
-            z-index: 1001;
-            font-size: 12px;
-            color: white;
-        }
-        .footer-left,
-        .footer-right {
-            display: flex;
-            gap: 15px;
-            align-items: center;
-        }
-        .footer-item {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            cursor: default;
-        }
-
-        /* Override margins so ContactUs section fits nicely in editor */
-        .main-content .contact-section {
-            margin: -18px;
-        }
-    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
@@ -558,60 +239,47 @@
             });
         }
 
-        // Fetch and display file content.
-        // Special case: ContactUs.jsx loads and renders ContactUs.html's section.contact-section.
+       
         async function updateContent(fileName) {
             mainContent.innerHTML = '<div style="padding:20px;color:#c5e2f9;">Loading...</div>';
-
-            // Map ContactUs.jsx -> ContactUs.html for actual HTML content
-            const fileToFetch = fileName === 'ContactUs.jsx'
-                ? 'ContactUs.html'
-                : fileName;
+            
+            // MAPPING FILES TO EXTERNAL HTML
+            let fileToFetch = fileName;
+            if (fileName === 'ContactUs.jsx') fileToFetch = 'ContactUs.html';
+            if (fileName === 'AboutUs.html') fileToFetch = 'aboutpage.html'; // NEW MAPPING
 
             try {
                 const response = await fetch(fileToFetch);
-                if (!response.ok) {
-                    throw new Error('File not found or cannot be loaded: ' + fileToFetch);
-                }
+                if (!response.ok) throw new Error('File not found: ' + fileToFetch);
                 const text = await response.text();
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(text, 'text/html');
 
                 if (fileName === 'ContactUs.jsx') {
-                    // Parse HTML and extract the .contact-section node[web:121][web:126][web:128]
-                    const parser = new DOMParser();
-                    const doc = parser.parseFromString(text, 'text/html');
                     const section = doc.querySelector('.contact-section');
-
-                    if (section) {
-                        // Render the actual Contact Us UI inside the editor
-                        mainContent.innerHTML = section.outerHTML;
+                    mainContent.innerHTML = section ? section.outerHTML : `<pre>${text.replace(/</g, '&lt;')}</pre>`;
+                
+                } else if (fileName === 'AboutUs.html') {
+                    // EXTRACT THE CONTENT FOR ABOUT US
+                    const layout = doc.querySelector('.original-layout');
+                    // We also need to inject the <style> from aboutpage.html if it has specific vars
+                    // But your provided aboutpage.html has styles in <head>. 
+                    // Since we are parsing string, we can try to grab the style block too or just rely on the inline extracted content.
+                    // A better approach for simple injection:
+                    
+                    if (layout) {
+                        // We append the style block from the external file to ensure variables work
+                        const styleBlock = doc.querySelector('style');
+                        mainContent.innerHTML = (styleBlock ? styleBlock.outerHTML : '') + layout.outerHTML;
                     } else {
-                        // Fallback: show raw HTML as code
-                        const escaped = text
-                            .replace(/&/g, '&amp;')
-                            .replace(/</g, '&lt;')
-                            .replace(/>/g, '&gt;');
-                        mainContent.innerHTML = `<pre>${escaped}</pre>`;
+                        mainContent.innerHTML = `<pre>${text.replace(/</g, '&lt;')}</pre>`;
                     }
+
                 } else {
-                    // Default: show source code
-                    let escaped = text
-                        .replace(/&/g, '&amp;')
-                        .replace(/</g, '&lt;')
-                        .replace(/>/g, '&gt;');
-                    mainContent.innerHTML = `<pre>${escaped}</pre>`;
+                    mainContent.innerHTML = `<pre style="padding:10px">${text.replace(/</g, '&lt;')}</pre>`;
                 }
             } catch (err) {
-                mainContent.innerHTML = `
-                    <div style="padding:20px;color:#f48771;">
-                        <h3>Error loading ${fileToFetch}</h3>
-                        <p>${err.message}</p>
-                        <p style="margin-top:10px;font-size:12px;opacity:0.8;">
-                            Tip: Open this project with a local server (for example, VS Code Live Server)
-                            so that <code>fetch()</code> can read local files.
-                        </p>
-                    </div>
-                `;
-                console.error(err);
+                mainContent.innerHTML = `<div style="padding:20px;color:red;">Error: ${err.message}. Use a local server.</div>`;
             }
         }
 

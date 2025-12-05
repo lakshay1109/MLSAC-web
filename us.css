@@ -1,50 +1,18 @@
 @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&display=swap');
-body {
-    background: #122C3E;
-    margin: 0;
-    padding: 0;
-}
-
-/* VS Code reserved areas*/
-.vscode-left {
-    width: 280px;
-    height: 100vh;
-    position: fixed;
-    left: 0;
-    top: 0;
-}
-
-.vscode-top {
-    height: 40px;
-    width: 100%;
-    position: fixed;
-    left: 0;
-    top: 0;
-}
-
-.vscode-bottom {
-    height: 30px;
-    width: 100%;
-    position: fixed;
-    left: 0;
-    bottom: 0;
-}
 
 /* CONTACT SECTION CORE */
 .contact-section {
-    margin-left: 280px;
-    margin-top: 60px;
-    margin-bottom: 60px;
-    padding: 20px;
-
-    background: rgb(5, 17, 27);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    animation: fadeIn 0.6s ease;
-
-    position: relative;
-    overflow: hidden;
+    flex-grow: 1; 
+            
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 10px;
+            background-color: transparent; 
+            position: relative; 
+            overflow: none;
+            z-index: 1;
+            scale: 1;
 }
 
 /* ====== TECH BACKGROUND DECORATIONS ====== */
@@ -57,6 +25,8 @@ body {
     height: 200%;
     background: linear-gradient(135deg, rgba(2, 213, 255, 0.06) 0%, rgba(2, 213, 255, 0) 60%);
     pointer-events: none;
+
+    
 }
 
 .contact-section::after {
