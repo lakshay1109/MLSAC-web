@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>MLSAC-Core Page</title>
+    <style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap');
+    </style>
+
+    <style>
+      body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+       
+        color: #f0f0f0; 
+      }
+
+
+      #header {
+        
+        color: white;
+        font-size: 20px;
+        text-align: center;
+        height: 40px;
+      }
+
+     
+      #top-tabs {
+        background: #ffffff;
+        color: white;
+        padding: 0; 
+        text-align: center;
+        height: 40px;
+      }
+
+      
+      #top-tabs a {
+        display: inline-block;
+        padding: 12px 20px;
+        color: white;
+        text-decoration: none;
+        font-size: 16px;
+        transition: background-color 0.2s ease-in-out;
+      }
+
+      
+      #top-tabs a:hover {
+        background-color: #ffffff; 
+      }
+
+
+   
+      #layout {
+        display: flex;
+        height: calc(100vh - 120px);
+      }
+
+     
+      #sidebar {
+        width: 210px;
+        background: #003067;
+        color: white;
+        padding: 20px;
+        position: fixed;
+        left: 0;
+        top: 94px; 
+        bottom: 0;
+        overflow-y: auto;
+      }
+      
+      
+      #sidebar h3 {
+        color: #9ac9ff; 
+        border-bottom: 1px solid #044a8d;
+        padding-bottom: 10px;
+      }
+
+      .item {
+        margin: 8px 0;
+        cursor: pointer;
+        padding: 8px 12px; 
+        border-radius: 6px; 
+        transition: background-color 0.2s ease; 
+      }
+      
+      .subitem {
+        margin-left: 20px;
+        cursor: pointer;
+        padding: 6px 10px;
+        border-radius: 6px;
+        transition: background-color 0.2s ease;
+      }
+      
+    
+      .item:hover, .subitem:hover {
+        background-color: #044a8d;
+      }
+
+
+    
+      #main-content {
+        margin-left: 250px; 
+        flex: 1;
+        background: rgb(5,17,27);
+        padding: 40px;
+        padding-top:0px;
+        font-size: 18px;
+        overflow-y: auto;
+        height: calc(100vh - 120px);
+      }
+      .main-heading {
+        font-size: 20px;
+        margin-bottom: 30px;
+        margin-top:0px;
+        text-align: center;
+        padding:0px;
+        font-family: "Orbitron", sans-serif;
+         
+      }
+
+      .main-heading h1{
+        font-size: 50px;
+        color:rgb(66,169,229);
+      }
+
+      .main-heading h2{
+        font-size: 36px;
+        
+      }
+      
+      
+      .team-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 30px;
+      }
+
+      
+      .member {
+        text-align: center;
+        max-width: 250px;
+
+        margin-left:150px;
+        margin-right: 0px;
+        
+       
+        background: #0b1f2c;
+        border-radius: 12px; 
+        padding: 16px;
+       
+        
+        animation: float 5s ease-in-out infinite;
+        
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        
+       
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+      
+       @keyframes float{
+   0%{
+        transform: translateY(0);
+
+    }
+    50%{
+        transform: translateY(-1.0rem);
+
+    }
+    100%{
+        transform: translateY();
+
+    }
+
+}
+
+      
+      .member:hover {
+        transform: translateY(-8px); 
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+      }
+      
+      
+      .member-img-wrapper {
+        width: 100%;
+        aspect-ratio: 1 / 1;
+        border-radius: 12px;
+        overflow: hidden;
+        margin-bottom: 16px; 
+        border: 2px solid white;
+        box-sizing: border-box; 
+
+      }
+
+      .member img {
+        width: 100%;
+        height: 100%; 
+        object-fit: cover;
+        
+        
+
+        transition: transform 0.3s ease;
+      }
+      
+      
+      .member:hover img {
+        transform: scale(1.05); 
+      }
+
+
+
+     
+      .member p {
+        margin: 0; 
+        font-family: "Roboto Mono", sans-serif;
+        color: #c5e2f9;
+        font-size: 18px;
+        font-weight: 600; 
+      }
+      
+      
+      .member a {
+       
+        text-decoration: none;
+        color: inherit; 
+      }
+
+      #align{
+        margin-left:100px;
+        margin-bottom: 0px;
+        width:400px;
+        display: flex;
+        gap: 50px;
+      }
+
+      .box {
+        margin-top: 20px;
+        border: 3px solid rgba(66, 169, 229, 0.7);
+        padding:0px 15px;
+        display: inline-block;
+        border-radius: 10px;
+        text-shadow: 
+                0 0 5px rgba(66, 169, 229, 0.7), 
+                0 0 10px rgba(66, 169, 229, 0.5); 
+
+
+        
+      }
+
+
+      .member {
+  text-align: center;
+  max-width: 260px;
+
+  background: #0b1f2c;
+  border-radius: 14px;
+  padding: 18px;
+
+  box-shadow: 0 0 0 rgba(66,169,229,0.0);
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+}
+
+/* On hover → LIFT + GLOW */
+.member:hover {
+  transform: translateY(-10px) scale(1.03);
+  box-shadow: 0 0 25px rgba(66,169,229,0.7);
+}
+
+/* IMAGE WRAPPER */
+.member-img-wrapper {
+  position: relative;
+  width: 100%;
+  height: 260px;
+  overflow: hidden;
+  border-radius: 12px;
+  border: 2px solid rgb(255, 255, 255);
+}
+
+/* IMAGE */
+.member-img-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+
+  transition: transform 0.35s ease, opacity 0.35s ease;
+}
+
+/* Zoom + slight dim on hover */
+.member:hover .member-img-wrapper img {
+  transform: scale(1.08);
+  opacity: 0.25;
+}
+
+/* LINKEDIN BUTTON */
+.linkedin-btn {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  opacity: 0;
+  transition: opacity 0.35s ease;
+}
+
+/* LinkedIn logo size */
+.linkedin-btn img {
+  width: 75px;
+  height: 75px;
+  border-radius: 50%;
+}
+
+/* Show icon on hover */
+.member:hover .linkedin-btn {
+  opacity: 1;
+}
+
+/* NAME */
+.member p {
+  margin: 12px 0 0 0;
+  color: #c5e2f9;
+  font-size: 18px;
+  font-family: "Roboto Mono", sans-serif;
+  font-weight: 600;
+}
+
+
+.linkedin-btn img {
+  width: 85px;
+  height: 85px;
+  border-radius: 50%;
+  opacity: 1 !important;   /* NEW: force icon to be bright */
+  filter: brightness(1.8); /* NEW: increase glow/brightness */
+}
+
+
+    </style>
+  </head>
+
+  <body>
+  
+    <div id="header"></div>
+
+    <div id="top-tabs">
+      
+      <a href="#"></a>
+    
+    </div>
+
+    <div id="layout">
+      
+
+      <div id="main-content">
+
+        <div class="main-heading">
+          <div class="box">
+            <h1 >Core Team Members </h1>
+          </div>
+           
+        </div>
+
+        <div class="main-heading">
+           <h2>Chairpersons</h2>
+        </div>
+       
+        <div class="team-grid">
+
+
+           <div class="member">
+              <div class="member-img-wrapper">
+               <img src="./Core/1000177578.jpg" />
+               <a href="https://www.linkedin.com/in/hasdeep-singh-098a822bb/" 
+                  target="_blank" 
+                  class="linkedin-btn">
+                <img src="./Images/LinkedIn_Logo.png" alt="LinkedIn">
+               </a>
+              </div>
+
+             <p>Hasdeep Singh</p>
+            </div>
+
+
+           <div class="member">
+              <div class="member-img-wrapper">
+               <img src="./Core/IMG_20240126_202852_208.jpg" />
+               <a href="https://www.linkedin.com/in/yashkapur18/"
+                  target="_blank" 
+                  class="linkedin-btn">
+                <img src="./Images/LinkedIn_Logo.png" alt="LinkedIn">
+               </a>
+              </div>
+
+             <p>Yash Kapur</p>
+            </div>
+
+          
+        </div>
+        <br>
+
+          <div class="main-heading">
+           <h2>Vice Chairpersons</h2>
+          </div>
+
+        <div class="team-grid">
+
+
+          
+
+
+          <div class="member">
+              <div class="member-img-wrapper">
+               <img src="./Core/IMG-20250913-WA0023.jpg" />
+               <a href="https://www.linkedin.com/in/anand-misra-6389072b2/"
+                  target="_blank" 
+                  class="linkedin-btn">
+                <img src="./Images/LinkedIn_Logo.png" alt="LinkedIn">
+               </a>
+              </div>
+
+             <p>Anand Misra</p>
+          </div>
+
+
+           <div class="member">
+              <div class="member-img-wrapper">
+               <img src="./Core/Ananya.jpg" />
+               <a href="https://www.linkedin.com/in/ananya-singh-378349329/"
+                  target="_blank" 
+                  class="linkedin-btn">
+                <img src="./Images/LinkedIn_Logo.png" alt="LinkedIn">
+               </a>
+              </div>
+
+             <p>Ananya Singh</p>
+           </div>
+
+          
+          
+        </div>
+        <br>
+        
+          <div class="main-heading">
+          <h2>General Secretaries</h2>
+          </div>
+        
+        <div class="team-grid">
+
+          
+
+          <div class="member">
+              <div class="member-img-wrapper">
+               <img src="./Core/Mansha2.PNG" />
+               <a href="https://www.linkedin.com/in/mansha-ahuja-26a3782a1/"
+                  target="_blank" 
+                  class="linkedin-btn">
+                <img src="./Images/LinkedIn_Logo.png" alt="LinkedIn">
+               </a>
+              </div>
+
+             <p>Mansha Ahuja</p>
+          </div>
+
+
+           <div class="member">
+              <div class="member-img-wrapper">
+               <img src="./Core/Manya.jpg" />
+               <a href="https://www.linkedin.com/in/manya-dhingra-0821b3287?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app"
+                  target="_blank" 
+                  class="linkedin-btn">
+                <img src="./Images/LinkedIn_Logo.png" alt="LinkedIn">
+               </a>
+              </div>
+
+             <p>Manya Dhingra</p>
+           </div>
+
+
+
+
+
+        </div> 
+        <br>
+
+        
+          <div class="main-heading">
+          <h2>Joint Secretaries</h2>
+          </div>
+        
+        <div class="team-grid">
+
+
+
+          <div class="member">
+              <div class="member-img-wrapper">
+               <img src="./Core/Pratham.jpg" />
+               <a href="https://www.linkedin.com/in/pratham-madan-908605294/"
+                  target="_blank" 
+                  class="linkedin-btn">
+                <img src="./Images/LinkedIn_Logo.png" alt="LinkedIn">
+               </a>
+              </div>
+
+             <p>Pratham Madan</p>
+          </div>
+
+
+           <div class="member">
+              <div class="member-img-wrapper">
+               <img src="./Core/Shaurya.jpg" />
+               <a href="https://www.linkedin.com/in/shaurya-khatri/"
+                  target="_blank" 
+                  class="linkedin-btn">
+                <img src="./Images/LinkedIn_Logo.png" alt="LinkedIn">
+               </a>
+              </div>
+
+             <p>Shaurya Khatri</p>
+           </div>
+
+        </div> 
+        <br>
+        
+        <div id="align">
+         <div class="main-heading">
+          
+          <h2 id="align">Treasurer</h2>
+         </div>
+         
+         <div class="main-heading">
+          <div id="align"><h2>Technical Lead</h2></div>
+          
+         </div>
+        </div>
+
+         
+
+        <div class="team-grid">
+
+          <div class="member">
+              <div class="member-img-wrapper">
+               <img src="./Core/20250311_182110.jpg" />
+               <a href="https://www.linkedin.com/in/bhavya-singla-095558343/"
+                  target="_blank" 
+                  class="linkedin-btn">
+                <img src="./Images/LinkedIn_Logo.png" alt="LinkedIn">
+               </a>
+              </div>
+
+             <p>Bhavya Singla</p>
+          </div>
+
+
+           <div class="member">
+              <div class="member-img-wrapper">
+               <img src="./Core/Shreya.jpg" />
+               <a href="http://www.linkedin.com/in/shreya-soni-b90233246/"
+                  target="_blank" 
+                  class="linkedin-btn">
+                <img src="./Images/LinkedIn_Logo.png" alt="LinkedIn">
+               </a>
+              </div>
+
+             <p>Shreya Soni</p>
+           </div>
+
+          
+        </div> 
+
+        
+
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>MLSAC-Head of Departments</title>
+    <style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap');
+    </style>
+
+    <style>
+      body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+       
+        color: #f0f0f0; 
+      }
+
+
+      #header {
+        background: #ffffff;
+        color: white;
+        
+        font-size: 20px;
+        text-align: center;
+        height: 40px;
+      }
+
+     
+      #top-tabs {
+        
+        color: white;
+        padding: 0; 
+        text-align: center;
+        height: 40px;
+      }
+
+      
+      #top-tabs a {
+        display: inline-block;
+        padding: 12px 20px;
+        color: white;
+        text-decoration: none;
+        font-size: 16px;
+        transition: background-color 0.2s ease-in-out;
+      }
+
+      
+      #top-tabs a:hover {
+        background-color: #0053a6; 
+      }
+
+
+   
+      #layout {
+        display: flex;
+        height: calc(100vh - 120px);
+      }
+
+     
+      #sidebar {
+        width: 210px;
+        background: #003067;
+        color: white;
+        padding: 20px;
+        position: fixed;
+        left: 0;
+        top: 94px; 
+        bottom: 0;
+        overflow-y: auto;
+      }
+      
+      
+      #sidebar h3 {
+        color: #9ac9ff; 
+        border-bottom: 1px solid #044a8d;
+        padding-bottom: 10px;
+      }
+
+      .item {
+        margin: 8px 0;
+        cursor: pointer;
+        padding: 8px 12px; 
+        border-radius: 6px; 
+        transition: background-color 0.2s ease; 
+      }
+      
+      .subitem {
+        margin-left: 20px;
+        cursor: pointer;
+        padding: 6px 10px;
+        border-radius: 6px;
+        transition: background-color 0.2s ease;
+      }
+      
+    
+      .item:hover, .subitem:hover {
+        background-color: #044a8d;
+      }
+
+
+    
+      #main-content {
+        margin-left: 250px; 
+        flex: 1;
+        background: rgb(5,17,27);
+        padding: 40px;
+        padding-top:0px;
+        font-size: 18px;
+        overflow-y: auto;
+        height: calc(100vh - 120px);
+      }
+      .main-heading {
+        font-size: 20px;
+        margin-bottom: 30px;
+        margin-top:0px;
+        text-align: center;
+        padding:0px;
+        font-family: "Orbitron", sans-serif;
+         
+      }
+
+      .main-heading h1{
+        font-size: 50px;
+        color:rgb(66,169,229);
+      }
+
+      .main-heading h2{
+        font-size: 36px;
+        margin:30px 0px 30px 0px;
+        text-align: center;
+        font-family: "Orbitron", sans-serif;
+        
+      }
+
+      
+      .team-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        justify-content: center;
+        gap: 30px;
+        color:#7bc1fb
+      }
+
+      
+      .member {
+        text-align: center;
+        max-width: 250px;
+
+        margin-left:150px;
+        margin-right: 0px;
+        
+       
+        background: #0b1f2c;
+        border-radius: 12px; 
+        padding: 16px;
+       
+        
+        animation: float 5s ease-in-out infinite;
+        
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        
+       
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      @keyframes float{
+   0%{
+        transform: translateY(0);
+
+    }
+    50%{
+        transform: translateY(-1.0rem);
+
+    }
+    100%{
+        transform: translateY();
+
+    }
+
+}
+      
+      
+      .member:hover {
+        transform: translateY(-8px); /* Lifts the card up */
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+      }
+      
+      
+      .member-img-wrapper {
+        width: 100%;
+        height: 250px;
+        aspect-ratio: 1 / 1;
+        border-radius: 12px;
+        overflow: hidden;
+        margin-bottom: 16px;
+        border:2px solid rgb(255, 255, 255);
+         box-sizing: border-box; 
+
+      }
+
+      .member img {
+        width: 100%;
+        height: 100%; 
+        object-fit: cover;
+        
+        
+        /* --- NEW: Transition for the zoom effect --- */
+        transition: transform 0.3s ease;
+      }
+      
+      
+      .member:hover img {
+        transform: scale(1.05); 
+      }
+
+      /* --- MEMBER NAME (TWEAKED) --- */
+      .member p {
+        margin: 0; 
+        color: #c5e2f9;
+        font-size: 18px;
+        font-weight: 600; 
+        font-family: "Roboto Mono", sans-serif;
+      }
+      
+   
+      .member a {
+        
+        text-decoration: none;
+        color: inherit; 
+      }
+      
+      
+      .box {
+        margin-top: 20px;
+        padding: 40px;
+        border: 3px solid rgba(66, 169, 229, 0.7);
+        padding:0px 15px;
+        display: inline-block;
+        border-radius: 10px;
+        text-shadow: 
+                0 0 5px rgba(66, 169, 229, 0.7), 
+                0 0 10px rgba(66, 169, 229, 0.5); 
+      }
+
+
+
+     /* MEMBER CARD */
+.member {
+  text-align: center;
+  max-width: 260px;
+
+  background: #0b1f2c;
+  border-radius: 14px;
+  padding: 18px;
+
+  box-shadow: 0 0 0 rgba(66,169,229,0.0);
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+}
+
+/* On hover → LIFT + GLOW */
+.member:hover {
+  transform: translateY(-10px) scale(1.03);
+  box-shadow: 0 0 25px rgba(66,169,229,0.7);
+}
+
+/* IMAGE WRAPPER */
+.member-img-wrapper {
+  position: relative;
+  width: 100%;
+  height: 260px;
+  overflow: hidden;
+  border-radius: 12px;
+  border: 2px solid rgb(255, 255, 255);
+}
+
+/* IMAGE */
+.member-img-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+
+  transition: transform 0.35s ease, opacity 0.35s ease;
+}
+
+/* Zoom + slight dim on hover */
+.member:hover .member-img-wrapper img {
+  transform: scale(1.08);
+  opacity: 0.25;
+}
+
+/* LINKEDIN BUTTON */
+.linkedin-btn {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  opacity: 0;
+  transition: opacity 0.35s ease;
+}
+
+/* LinkedIn logo size */
+.linkedin-btn img {
+  width: 75px;
+  height: 75px;
+  border-radius: 50%;
+}
+
+/* Show icon on hover */
+.member:hover .linkedin-btn {
+  opacity: 1;
+}
+
+/* NAME */
+.member p {
+  margin: 12px 0 0 0;
+  color: #c5e2f9;
+  font-size: 18px;
+  font-family: "Roboto Mono", sans-serif;
+  font-weight: 600;
+}
+
+
+.linkedin-btn img {
+  width: 85px;
+  height: 85px;
+  border-radius: 50%;
+  opacity: 1 !important;   /* NEW: force icon to be bright */
+  filter: brightness(1.8); /* NEW: increase glow/brightness */
+}
+
+
+
+
+    </style>
+  </head>
+
+  <body>
+  
+    <div id="header"></div>
+
+    <div id="top-tabs">
+      <a href="#"></a>
+      
+    </div>
+
+    <div id="layout">
+      
+
+      <div id="main-content">
+        <div class="main-heading">
+           <div class="box">
+            <h1>HEADS OF DEPARTMENT</h1>
+          </div>
+           
+        </div>
+
+        <div class="main-heading">
+           <h2>Technical Department </h2>
+        </div>
+       
+        <div class="team-grid">
+          
+          
+         
+
+         <div class="member">
+          <div class="member-img-wrapper">
+           <img src="./Heads/Technical heads/WhatsApp Image 2025-11-20 at 4.19.11 PM.jpeg">
+
+           <a href="https://www.linkedin.com/in/hardik-sharma-080798328/" 
+           target="_blank" 
+           class="linkedin-btn">
+           <img src="./Images/LinkedIn_Logo.png" alt="LinkedIn">
+            </a>
+         </div>
+
+          <p>Hardik Sharma</p>
+        </div>
+
+         <div class="member">
+          <div class="member-img-wrapper">
+           <img src="./Heads/Technical heads/IMG20250319172544.jpg">
+
+           <a href="https://www.linkedin.com/in/lakshay-varshney-01ab23375/" 
+           target="_blank" 
+           class="linkedin-btn">
+           <img src="./Images/LinkedIn_Logo.png" alt="LinkedIn">
+            </a>
+         </div>
+
+         <p>Lakshay Varshney</p>
+        </div>
+
+
+          
+          
+        </div>
+        
+           <div class="main-heading">
+           <h2>Design Department </h2>
+           </div>
+
+      
+        <div class="team-grid">
+
+          
+
+          <div class="member">
+            <div class="member-img-wrapper">
+              <img src="./Heads/Design heads/bf3348cc-ae36-4648-87fc-f2d0f079548b.jpg">
+                <a href="https://www.linkedin.com/in/pranaya-wadhwa-0321aa340/"
+                   target="_blank" 
+                   class="linkedin-btn">
+                  <img src="./Images/LinkedIn_Logo.png" alt="LinkedIn">
+                </a>
+            </div>
+            <p>Pranaya Wadhwa</p>
+          </div>
+
+
+          <div class="member">
+            <div class="member-img-wrapper">
+              <img src="./Heads/Design heads/IMG-20250622-WA0102.jpg" />
+                <a href="https://www.linkedin.com/in/shiv-arora-3b7ba7294/"
+                   target="_blank" 
+                   class="linkedin-btn">
+                  <img src="./Images/LinkedIn_Logo.png" alt="LinkedIn">
+                </a>
+            </div>
+             <p>Shiv Arora</p>
+          </div>
+
+          
+
+        </div>
+
+        <div class="main-heading">
+           <h2>Sponsorship Department </h2>
+        </div>
+
+        <div class="team-grid">
+
+          <div class="member">
+            <div class="member-img-wrapper">
+              <img src="./Heads/Sponsorship and pr heads/IMG_6246.JPG" />
+                <a href="https://www.linkedin.com/in/arshia-mangal-99b654327/"
+                   target="_blank" 
+                   class="linkedin-btn">
+                  <img src="./Images/LinkedIn_Logo.png" alt="LinkedIn">
+                </a>
+            </div>
+             <p>Arshia Mangal</p>
+          </div>
+
+
+          <div class="member">
+            <div class="member-img-wrapper">
+              <img src="./Heads/Sponsorship and pr heads/IMG_6707.jpg" />
+                <a href="https://www.instagram.com/gurvanshs13/"
+                   target="_blank" 
+                   class="linkedin-btn">
+                  <img src="./Images/Instagram_Logo.png" alt="Instagram">
+                </a>
+            </div>
+             <p>Gurvansh Singh</p>
+          </div>
+          
+
+        </div>
+
+         <div class="main-heading">
+           <h2>Event Management Department </h2>
+          </div>
+
+
+          <div class="team-grid">
+
+          <div class="member">
+            <div class="member-img-wrapper">
+              <img src="./Heads/Event management heads/_DSC0021.jpg" />
+                <a href="https://www.linkedin.com/in/adhyankalra?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app"
+                   target="_blank" 
+                   class="linkedin-btn">
+                  <img src="./Images/LinkedIn_Logo.png" alt="LinkedIn">
+                </a>
+            </div>
+             <p>Adhyan Kalra</p>
+          </div>
+
+
+          <div class="member">
+            <div class="member-img-wrapper">
+             <img src="./Heads/Event management heads/Screenshot_20251022-135625~2.png" />
+                <a href="https://www.linkedin.com/in/diva-goel-65880832b/"
+                   target="_blank" 
+                   class="linkedin-btn">
+                  <img src="./Images/LinkedIn_Logo.png" alt="LinkedIn">
+                </a>
+            </div>
+            <p>Diva Goel</p>
+          </div>
+
+        </div> 
+
+
+         <div class="main-heading">
+           <h2>Content and Documentation Department </h2>
+           </div>
+
+
+          <div class="team-grid">
+         
+          <div class="member">
+            <div class="member-img-wrapper">
+             <img src="./Heads/CND heads/Aditya.PNG" />
+                <a href="https://www.linkedin.com/in/aditya-mishra-281b391ab/"
+                   target="_blank" 
+                   class="linkedin-btn">
+                  <img src="./Images/LinkedIn_Logo.png" alt="LinkedIn">
+                </a>
+            </div>
+            <p>Aditya Mishra</p>
+          </div>
+
+
+          <div class="member">
+            <div class="member-img-wrapper">
+             <img src="./Heads/CND heads/Moksha.jpg" />
+                <a href="https://www.linkedin.com/in/moksha-arora-9554b534a/"
+                   target="_blank" 
+                   class="linkedin-btn">
+                  <img src="./Images/LinkedIn_Logo.png" alt="LinkedIn">
+                </a>
+            </div>
+            <p>Moksha Arora</p>
+          </div>
+
+        </div> 
+
+
+         <div class="main-heading">
+           <h2>Social Media and Publicity Department </h2>
+           </div>
+
+
+          <div class="team-grid">
+
+           <div class="member">
+            <div class="member-img-wrapper">
+              <img src="./Heads/Sm and publicity heads/IMG-20250312-WA0072.jpg" />
+                <a href="https://www.instagram.com/jain.__20/"
+                   target="_blank" 
+                   class="linkedin-btn">
+                  <img src="./Images/Instagram_Logo.png" alt="instagram">
+                </a>
+            </div>
+             <p>Bhavya Jain</p>
+          </div>
+
+
+          <div class="member">
+            <div class="member-img-wrapper">
+             <img src="./Heads/Sm and publicity heads/Ritibha.jpg" />
+                <a href="https://www.linkedin.com/in/ritibha-sidhana-44653b31b"
+                   target="_blank" 
+                   class="linkedin-btn">
+                  <img src="./Images/LinkedIn_Logo.png" alt="LinkedIn">
+                </a>
+            </div>
+            <p>Ritibha Sidhana</p>
+          </div>
+         
+
+        </div> 
+
+         <div class="main-heading">
+           <h2>Video Editing Department </h2>
+           </div>
+
+
+          <div class="team-grid">
+           
+          <div class="member">
+            <div class="member-img-wrapper">
+            <img src="./Heads/Video editing heads/IMG_20251102_232916.jpg">
+                <a href=""
+                   target="_blank" 
+                   class="linkedin-btn">
+                  <img src="./Images/Instagram_Logo.png" alt="Instagram">
+                </a>
+            </div>
+            <p>Harsh Rao</p>
+          </div>
+
+
+          <div class="member">
+            <div class="member-img-wrapper">
+            <img src="./Heads/Video editing heads/IMG_20251017_204436.jpg" /> 
+                <a href="https://www.instagram.com/rxhul_siingh/"
+                   target="_blank" 
+                   class="linkedin-btn">
+                  <img src="./Images/Instagram_Logo.png" alt="Instagram">
+                </a>
+            </div>
+             <p>Rahul Singh</p>
+          </div>
+          
+
+        </div> 
+   
+          
+
+
+
+
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
