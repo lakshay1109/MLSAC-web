@@ -257,7 +257,7 @@
                 // Clear loading message
                 mainContent.innerHTML = '';
 
-                if (['AboutUs.html', 'Core.html', 'Heads.html',].includes(fileName)) {
+                if (['AboutUs.html', 'Core.html', 'Heads.html','Events.html'].includes(fileName)) {
                     // --- SHADOW DOM STRATEGY ---
                     // This creates a perfect sandbox. Styles inside won't leak out, 
                     // styles outside won't leak in.
@@ -282,10 +282,7 @@
                     styleTags.forEach(tag => combinedCSS += tag.textContent);
 
                     // 2. Extract Content
-                    // For Core/Heads, try to get #main-content (to skip sidebar), else fallback to body
-                    // For AboutUs, try to get .original-layout
                     let contentHTML = "";
-                    
                     if (fileName === 'AboutUs.html') {
                          const layout = doc.querySelector('.original-layout');
                          contentHTML = layout ? layout.outerHTML : doc.body.innerHTML;
@@ -296,6 +293,30 @@
                             .container { width: 100%; max-width: 1000px; margin: 0 auto; }
                          `;
                     } 
+                    else if (fileName === 'Events.html') {
+                        // For events, use the original events.css styles for layout and carousel
+                        const eventsDiv = doc.querySelector('.events');
+                        contentHTML = eventsDiv ? eventsDiv.outerHTML : doc.body.innerHTML;
+                        // Add popup containers
+                        const popups = doc.querySelectorAll('.popup');
+                        popups.forEach(popup => { contentHTML += popup.outerHTML; });
+                        // Properly import the styles from events.css into the shadow DOM and add zoom-out overrides
+                        fetch('events.css')
+                            .then(response => response.text())
+                            .then(cssText => {
+                                shadowRoot.innerHTML = `
+                                    <style>
+                                        ${cssText}
+                                        .event-text h3 { font-size: 2.2rem !important; padding: 8px 24px !important; }
+                                        .event-text p { font-size: 1rem !important; }
+                                        .event-section { padding: 18px !important; }
+                                        .event-images { max-width: 320px !important; min-width: 220px !important; height: 180px !important; }
+                                    </style>
+                                    ${contentHTML}
+                                `;
+                            });
+                        return;
+                    }
                     else {
                         // Core & Heads
                         const mainDiv = doc.querySelector('#main-content');
@@ -342,7 +363,8 @@
 
                     
                 
-                } else {
+                } 
+                else {
                     // Default code view
                     mainContent.innerHTML = `<pre style="padding:10px;">${text.replace(/</g, '&lt;')}</pre>`;
                 }
