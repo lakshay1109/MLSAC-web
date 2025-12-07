@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MLSAC BVP</title>
@@ -13,7 +15,7 @@
     <link rel="stylesheet" href="us.css">
 
     <link rel="stylesheet" href="styles.css">
-
+    
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -106,8 +108,8 @@
     <!-- 5. Main Content -->
     <div class="main-content" id="mainContent">
         <div class="empty-state">
-            <i class="fa-brands fa-codepen"
-               style="font-size: 100px; color: #1678a5; margin-bottom: 20px;"></i>
+            <img src="MLSAC logo .png" alt="MLSAC-BVP" style="height: 150px; width: auto; "/>
+               
             <p>Select a file from the Explorer to open</p>
         </div>
     </div>
@@ -297,23 +299,139 @@
                         // For events, use the original events.css styles for layout and carousel
                         const eventsDiv = doc.querySelector('.events');
                         contentHTML = eventsDiv ? eventsDiv.outerHTML : doc.body.innerHTML;
-                        // Add popup containers
-                        const popups = doc.querySelectorAll('.popup');
-                        popups.forEach(popup => { contentHTML += popup.outerHTML; });
-                        // Properly import the styles from events.css into the shadow DOM and add zoom-out overrides
+
+                        // Add the modal container (not the old .popup blocks)
+                        const modalDiv = doc.querySelector('#event-modal');
+                        if (modalDiv) contentHTML += modalDiv.outerHTML;
+
+                        // Properly import the styles from events.css into the shadow DOM
                         fetch('events.css')
                             .then(response => response.text())
                             .then(cssText => {
                                 shadowRoot.innerHTML = `
                                     <style>
                                         ${cssText}
-                                        .event-text h3 { font-size: 2.2rem !important; padding: 8px 24px !important; }
-                                        .event-text p { font-size: 1rem !important; }
+                                        .event-text h3 { font-size: 2.2rem !important; padding: 8px 24px !important; font-family: "Orbitron",sans-serif; }
+                                        .event-text p { font-size: 1rem !important; padding: 0 24px 18px 24px !important; font-family: 'Roboto Mono', monospace; }
                                         .event-section { padding: 18px !important; }
                                         .event-images { max-width: 320px !important; min-width: 220px !important; height: 180px !important; }
                                     </style>
                                     ${contentHTML}
                                 `;
+
+                                // ==========================================
+                                //  NEW: INJECT JAVASCRIPT LOGIC HERE
+                                // ==========================================
+                                
+                                // 1. Define Data
+                                const eventMedia = {
+                                    'goc': [
+                                        {type: 'img', src: './event-images/Game_Of_Code_3.0/GOC_image-1.png'},
+                                        {type: 'img', src: './event-images/Game_Of_Code_3.0/GOC_image-2.png'},
+                                        {type: 'img', src: './event-images/Game_Of_Code_3.0/GOC_image-3.png'},
+                                        {type: 'video', src: './event-images/Game_Of_Code_3.0/GOC_video.mp4'},
+                                    ],
+                                    'uxplore': [
+                                        {type: 'img', src: './event-images/UXplore/UXplore_image-1.jpg'},
+                                        {type: 'img', src: './event-images/UXplore/UXplore_image-2.jpg'},
+                                        {type: 'img', src: './event-images/UXplore/UXplore_image-3.jpg'},
+                                        {type: 'video', src: './event-images/UXplore/UXplore_video.mp4'},
+                                    ],
+                                    'bugsmash': [
+                                        {type: 'img', src: './event-images/BugSmash/Bugsmash_image-1.jpg'},
+                                        {type: 'img', src: './event-images/BugSmash/Bugsmash_image-2.jpg'},
+                                        {type: 'img', src: './event-images/BugSmash/Bugsmash_image-3.jpg'},
+                                        {type: 'img', src: './event-images/BugSmash/Bugsmash_image-4.jpg'},
+                                    ],
+                                    'trp': [
+                                        {type: 'img', src: './event-images/TRP/TRP_image-1.jpg'},
+                                        {type: 'img', src: './event-images/TRP/TRP_image-2.jpg'},
+                                        {type: 'img', src: './event-images/TRP/TRP_image-3.jpg'},
+                                        {type: 'video', src: './event-images/TRP/TRP_video.mov'},
+                                    ],
+                                    'creaticon': [
+                                        {type: 'img', src: './event-images/CreatiCon/CreatiCon_image-1.jpg'},
+                                        {type: 'img', src: './event-images/CreatiCon/CreatiCon_image-2.jpg'},
+                                        {type: 'img', src: './event-images/CreatiCon/CreatiCon_image-3.jpg'},
+                                        {type: 'img', src: './event-images/CreatiCon/CreatiCon_image-4.jpg'},
+                                    ],
+                                };
+
+                                // 2. Add data-event attributes (Using shadowRoot.querySelectorAll)
+                                ['goc','uxplore','bugsmash','trp','creaticon'].forEach(event => {
+                                    shadowRoot.querySelectorAll(`a[href*='${event}']`).forEach(a => {
+                                        a.setAttribute('data-event', event);
+                                    });
+                                });
+
+                                // 3. Modal Logic (Using shadowRoot instead of document)
+                                const modal = shadowRoot.getElementById('event-modal');
+                                
+                                // Safety check in case modal HTML wasn't found
+                                if(modal) {
+                                    const modalMediaContainer = modal.querySelector('.modal-media-container');
+                                    const closeBtn = modal.querySelector('.modal-close');
+                                    const prevBtn = modal.querySelector('.modal-prev');
+                                    const nextBtn = modal.querySelector('.modal-next');
+                                    let currentMedia = [];
+                                    let currentIndex = 0;
+
+                                    function showModal(eventType, index) {
+                                        currentMedia = eventMedia[eventType];
+                                        currentIndex = index;
+                                        renderModalMedia();
+                                        modal.style.display = 'flex';
+                                    }
+
+                                    function renderModalMedia() {
+                                        modalMediaContainer.innerHTML = '';
+                                        const media = currentMedia[currentIndex];
+                                        let el;
+                                        if (media.type === 'img') {
+                                            el = document.createElement('img');
+                                            el.src = media.src;
+                                            el.alt = '';
+                                        } else if (media.type === 'video') {
+                                            el = document.createElement('video');
+                                            el.src = media.src;
+                                            el.controls = true;
+                                            el.autoplay = true;
+                                            el.muted = true;
+                                            el.style.background = '#111';
+                                        }
+                                        el.className = 'modal-media';
+                                        modalMediaContainer.appendChild(el);
+                                    }
+
+                                    // 4. Attach Event Listeners
+                                    const items = shadowRoot.querySelectorAll('.carousel-item');
+                                    items.forEach((item) => {
+                                        item.addEventListener('click', function(e) {
+                                            e.preventDefault();
+                                            const eventType = this.getAttribute('data-event');
+                                            // Find index within its event group inside shadowRoot
+                                            const siblings = Array.from(shadowRoot.querySelectorAll(`.carousel-item[data-event='${eventType}']`));
+                                            const index = siblings.indexOf(this);
+                                            showModal(eventType, index);
+                                        });
+                                    });
+
+                                    closeBtn.onclick = () => { modal.style.display = 'none'; };
+                                    
+                                    // Attach click to the modal background instead.
+                                    modal.onclick = (e) => { 
+                                        if (e.target === modal) modal.style.display = 'none'; 
+                                    };
+
+                                    prevBtn.onclick = () => {
+                                        currentIndex = (currentIndex - 1 + currentMedia.length) % currentMedia.length;
+                                        renderModalMedia();
+                                    };
+                                    nextBtn.onclick = () => {
+                                        currentIndex = (currentIndex + 1) % currentMedia.length;
+                                        renderModalMedia();
+                                    };
+                                }
                             });
                         return;
                     }
