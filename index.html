@@ -1,8 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/devicon.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/devicon.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MLSAC BVP</title>
@@ -61,15 +63,17 @@
         </div>
 
         <div class="file-tree">
+            <!-- CHANGED: from <a href="welcome.html" ... Welcome.css> to a TSX-style React file -->
             <div class="tree-item indent-1"
-                 onclick="openFile('Welcome.css','fa-brands fa-css3','#42a5f5')">
-                <i class="fa-brands fa-css3 icon icon-css"></i>
-                <span>Welcome.css</span>
+                onclick="openFile('Welcome.cpp','cpp-icon','#00599C')">
+                <i class="devicon-cplusplus-plain icon" style="color:#00599C;"></i>
+                <span>Welcome.cpp</span>
             </div>
+
             <div class="tree-item indent-1"
                  onclick="openFile('AboutUs.html','fa-regular fa-file-lines','#cccccc')">
                 <i class="fa-regular fa-file-lines icon icon-txt"></i>
-                <span>AboutUs.html</span>
+                <span>AboutUs.txt</span>
             </div>
             <div class="tree-item indent-1"
                  onclick="openFile('Events.html','fa-brands fa-html5','#e44d26')">
@@ -83,15 +87,17 @@
             </div>
 
             <div class="tree-item indent-2"
-                 onclick="openFile('Core.html','fa-brands fa-html5','#e44d26')">
-                <i class="fa-brands fa-html5 icon icon-html"></i>
-                <span>Core.html</span>
+                onclick="openFile('Core.js','fa-brands fa-js','#f7df1e')">
+                <i class="fa-brands fa-js icon" style="color:#f7df1e;"></i>
+                <span>Core.js</span>
             </div>
+
             <div class="tree-item indent-2"
-                 onclick="openFile('Heads.html','fa-brands fa-html5','#e44d26')">
-                <i class="fa-brands fa-html5 icon icon-html"></i>
-                <span>Heads.html</span>
+                onclick="openFile('Heads.css','devicon-tailwindcss-plain','#38bdf8')">
+                <i class="devicon-tailwindcss-plain icon" style="color:#38bdf8;"></i>
+                <span>Heads.css</span>
             </div>
+
 
             <!-- When this is clicked, we will load ContactUs.html and render it -->
             <div class="tree-item indent-1"
@@ -138,6 +144,33 @@
             <br>
             <div class="command-line">
                 <span class="prompt">C:\Users\MLSAC-BVP></span>
+                <span>Created by -</span>
+            </div>
+                <br>
+                <span>Dev Sharma</span>
+                <br>
+                <span>Harshul Kathuria</span>
+                <br>
+                <span>Karan Jaiswal</span>
+                <br>
+                <span>Vasvi Goyal</span>
+                <br>
+                <span>Dushyant </span>
+                <br>
+                <span>Samridhi</span>
+                <br>
+                <span>Gagan</span>
+                <br>
+                <span>Krishna Gupta</span>
+                <br>
+                <span>Aditya Ranjan</span>
+                <br>
+                <span>Hardik Sharma</span>
+                <br>
+                <span>Lakshay Varshney</span>
+            <br>
+            <div class="command-line">
+                <span class="prompt">C:\Users\MLSAC-BVP></span>
                 <div class="cursor"></div>
             </div>
         </div>
@@ -159,13 +192,14 @@
             <div class="footer-item">Ln 12, Col 44</div>
             <div class="footer-item">UTF-8</div>
             <div class="footer-item">CRLF</div>
+            <div class="footer-item" id = "comm"> Made by TECH TEAM </div>
             <div class="footer-item" id="langStatus">HTML</div>
             <div class="footer-item"><i class="fa-regular fa-bell"></i></div>
         </div>
     </div>
 
     <!-- JAVASCRIPT LOGIC -->
-        <script>
+    <script>
         const tabBar = document.getElementById('tabBar');
         const mainContent = document.getElementById('mainContent');
         const terminalPanel = document.getElementById('terminalPanel');
@@ -248,8 +282,10 @@
             let fileToFetch = fileName;
             if (fileName === 'ContactUs.jsx') fileToFetch = 'ContactUs.html';
             if (fileName === 'AboutUs.html') fileToFetch = 'aboutpage.html';
-            if (fileName === 'Core.html') fileToFetch = 'Core_Team.html';
-            if (fileName === 'Heads.html') fileToFetch = 'head.html'; 
+            if (fileName === 'Core.js') fileToFetch = 'Core_Team.html';
+            if (fileName === 'Heads.css') fileToFetch = 'head.html';
+            // NEW: map Welcome.tsx to Welcome.html (only this line is added)
+            if (fileName === 'Welcome.cpp') fileToFetch = 'Welcome.html';
 
             try {
                 const response = await fetch(fileToFetch);
@@ -259,7 +295,7 @@
                 // Clear loading message
                 mainContent.innerHTML = '';
 
-                if (['AboutUs.html', 'Core.html', 'Heads.html','Events.html'].includes(fileName)) {
+                if (['AboutUs.html', 'Core.js', 'Heads.css','Events.html','Welcome.cpp'].includes(fileName)) {
                     // --- SHADOW DOM STRATEGY ---
                     // This creates a perfect sandbox. Styles inside won't leak out, 
                     // styles outside won't leak in.
@@ -435,6 +471,133 @@
                             });
                         return;
                     }
+                    // NEW: Welcome.tsx branch (keeps other pages intact)
+                    else if (fileName === 'Welcome.cpp') {
+
+                        const mainLayout = doc.querySelector('.main') || doc.body;
+                        contentHTML = mainLayout.outerHTML;
+
+                        combinedCSS += `
+                            body {
+                                margin: 0 !important;
+                                padding: 0 !important;
+                                background: transparent !important;
+                            }
+
+                            .main {
+                                height: 100% !important;
+                                display: flex;
+                                overflow: hidden;
+                                align-items: center;
+                                justify-content: center;
+                            }
+
+                            .hero {
+                                padding: 24px 32px !important;
+                                display: flex;
+                                align-items: center !important;
+                                justify-content: center !important;
+                            }
+
+                            .glass-container {
+                            height: 100% !important;
+                                transform: scale(0.98);
+                                transform-origin: center;
+                                margin: 0 auto;
+                            }
+
+                            /* ✅ LOGO SIZE FIX */
+                            .image-section img {
+                                max-width: 260px !important;
+                                width: 100%;
+                                height: auto;
+                            }
+
+                            /* ✅ TEXT SIZE BALANCE */
+                            .scramble-text { font-size: 42px !important; }
+                            .heading-line,
+                            .sub-heading-line,
+                            .welcome-prefix { font-size: 24px !important; }
+                            .para-line {
+                                font-size: 20px !important;
+                                max-width: 100% !important;
+                            }
+                        `;
+
+                        // ✅ SCRAMBLE SCRIPT RE-INJECTION (FIXES FROZEN TEXT)
+                        setTimeout(() => {
+                            const el = shadowRoot.getElementById("scramble");
+                            if (!el) return;
+
+                            const phrases = ["MLSAC BVP", "Innovation", "Youth", "Delusion", "Perfection", "Excellence", "Leadership", "Fun"];
+                            const chars = "!<>-_\\/[]{}—=+*^?#@%&:________";
+                            let phraseIndex = 0;
+                            let frame = 0;
+                            let queue = [];
+                            let frameRequest;
+
+                            function setText(newText) {
+                                const oldText = el.textContent.replace(/"/g, "");
+                                const length = Math.max(oldText.length, newText.length);
+                                queue = [];
+
+                                for (let i = 0; i < length; i++) {
+                                    const from = oldText[i] || "";
+                                    const to = newText[i] || "";
+                                    const start = Math.floor(Math.random() * 70);
+                                    const end = start + Math.floor(Math.random() * 70);
+                                    queue.push({ from, to, start, end, char: null });
+                                }
+
+                                cancelAnimationFrame(frameRequest);
+                                frame = 0;
+                                update();
+                            }
+
+                            function randomChar() {
+                                return chars[Math.floor(Math.random() * chars.length)];
+                            }
+
+                            function update() {
+                                let output = "";
+                                let complete = 0;
+
+                                for (let i = 0; i < queue.length; i++) {
+                                    let { from, to, start, end, char } = queue[i];
+
+                                    if (frame >= end) {
+                                        complete++;
+                                        output += to;
+                                    } else if (frame >= start) {
+                                        if (!char || Math.random() < 0.48) {
+                                            char = randomChar();
+                                            queue[i].char = char;
+                                        }
+                                        output += char;
+                                    } else {
+                                        output += from;
+                                    }
+                                }
+
+                                el.textContent = `"${output}"`;
+
+                                if (complete === queue.length) return;
+
+                                frame++;
+                                frameRequest = requestAnimationFrame(update);
+                            }
+
+                            function nextPhrase() {
+                                phraseIndex = (phraseIndex + 1) % phrases.length;
+                                setText(phrases[phraseIndex]);
+                            }
+
+                            setText(phrases[0]);
+                            setInterval(nextPhrase, 3000);
+
+                        }, 50);
+                    }
+
                     else {
                         // Core & Heads
                         const mainDiv = doc.querySelector('#main-content');
@@ -478,9 +641,6 @@
                     const doc = parser.parseFromString(text, 'text/html');
                     const section = doc.querySelector('.contact-section');
                     mainContent.innerHTML = section ? section.outerHTML : `<pre>${text.replace(/</g, '&lt;')}</pre>`;
-
-                    
-                
                 } 
                 else {
                     // Default code view

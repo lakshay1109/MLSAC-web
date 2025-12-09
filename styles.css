@@ -116,7 +116,7 @@
         }
 
         .file-tree {
-            padding-bottom: 10px;
+            padding-bottom: 13px;
         }
 
         .tree-item {
@@ -124,7 +124,7 @@
             align-items: center;
             padding: 3px 0;
             cursor: pointer;
-            font-size: 14px;
+            font-size: 15px;
             color: #cccccc;
             border: 1px solid transparent;
         }
@@ -140,7 +140,9 @@
             margin-right: 6px;
             width: 16px;
             text-align: center;
+            scale: 1.2;
         }
+
         .icon-css { color: #42a5f5; }
         .icon-html { color: #e44d26; }
         .icon-react { color: #61dafb; }
